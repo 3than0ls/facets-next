@@ -2,28 +2,28 @@
 
 import React, { useReducer } from 'react'
 import InputField from './InputField'
-import InputButton from './InputButton'
-import { ACTIONS, reducer, initState, generateUpdateHandler } from './authReducer'
+import SubmitButton from './SubmitButton'
+import { ACTIONS, reducer, initState, generateDefaultHandler } from './authFormReducer'
 import { validatePassword, validateUsername } from './validation'
-import { AuthApiError } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
 import { createAccount } from '@/utils/supabase/authActions'
-
-
 
 
 const CreateAccountMenu = () => {
     const [state, dispatch] = useReducer(reducer, initState)
     const router = useRouter()
 
-    const handleUpdateUsername = generateUpdateHandler(dispatch, [{ type: ACTIONS.UPDATE_USERNAME }, { type: ACTIONS.ERROR_USERNAME, payload: '' }])
-    const handleUpdatePassword = generateUpdateHandler(dispatch, [{ type: ACTIONS.UPDATE_PASSWORD }, { type: ACTIONS.ERROR_PASSWORD, payload: '' }])
+    const handleUpdateUsername = generateDefaultHandler(dispatch, ACTIONS.UPDATE_USERNAME)
+    const handleUpdatePassword = generateDefaultHandler(dispatch, ACTIONS.UPDATE_PASSWORD)
 
-    const handleSubmit = async (e: React.MouseEvent) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        event.stopPropagation()
+
+        // some validation
         const usernameIsValid = validateUsername(state.username)
         if (!usernameIsValid.valid)
             return dispatch({ type: ACTIONS.ERROR_USERNAME, payload: usernameIsValid.invalidReason })
-
 
         const passwordIsValid = validatePassword(state.password)
         if (!passwordIsValid.valid)
@@ -31,21 +31,19 @@ const CreateAccountMenu = () => {
 
         try {
             await createAccount({ username: state.username, password: state.password })
+            router.push('/')
         } catch (err) {
-            if (err instanceof AuthApiError)
-                dispatch({ type: ACTIONS.ERROR_USERNAME, payload: "Username is already taken." })
-            else
-                throw err
+            dispatch({ type: ACTIONS.ERROR_USERNAME, payload: "Invalid login credentials." })
+            dispatch({ type: ACTIONS.ERROR_PASSWORD, payload: "Invalid login credentials." })
         }
-        router.push('/')
     }
 
     return (
-        <div className="w-full px-16 flex flex-col">
+        <form onSubmit={handleSubmit} className="w-full px-16 flex flex-col">
             <InputField error={state.username_error} onChange={handleUpdateUsername} label="Create Username" />
             <InputField error={state.password_error} onChange={handleUpdatePassword} label="Create Password" />
-            <InputButton onClick={handleSubmit} text="Create Account" />
-        </div>
+            <SubmitButton text="Create Account" />
+        </form>
     )
 }
 
