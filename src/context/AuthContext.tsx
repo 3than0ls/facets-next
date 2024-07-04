@@ -2,6 +2,10 @@ import React, { useContext, createContext, useState, useEffect } from 'react'
 import { Session, User } from '@supabase/supabase-js'
 import { supabase } from '@/utils/supabase/client'
 
+// import { User as PublicUser } from '@prisma/client'
+// // perhaps there will a use for passing in the public user to auth context?
+// // also it's not really auth, so shouldn't belong here
+
 interface AuthProviderProps {
     children: React.ReactNode
 }
@@ -13,7 +17,7 @@ type AuthContextType = {
 
 const initState: AuthContextType = {
     session: null,
-    user: null
+    user: null,
 }
 
 const AuthContext = createContext<AuthContextType>(initState)

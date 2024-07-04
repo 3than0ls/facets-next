@@ -7,11 +7,12 @@ import { ACTIONS, reducer, initState, generateUpdateHandler } from './authReduce
 import { validatePassword, validateUsername } from './validation'
 import { AuthApiError } from '@supabase/supabase-js'
 import { signIn } from '@/utils/supabase/client'
+import { useRouter } from 'next/navigation'
 
 
 const LoginMenu = () => {
     const [state, dispatch] = useReducer(reducer, initState)
-
+    const router = useRouter()
 
     const handleUpdateUsername = generateUpdateHandler(dispatch, [{ type: ACTIONS.UPDATE_USERNAME }, { type: ACTIONS.ERROR_USERNAME, payload: '' }])
     const handleUpdatePassword = generateUpdateHandler(dispatch, [{ type: ACTIONS.UPDATE_PASSWORD }, { type: ACTIONS.ERROR_PASSWORD, payload: '' }])
@@ -36,6 +37,8 @@ const LoginMenu = () => {
             else
                 throw err
         }
+
+        router.push('/')
     }
 
     return (

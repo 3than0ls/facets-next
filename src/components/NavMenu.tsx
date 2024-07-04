@@ -6,6 +6,9 @@ import * as NM from '@radix-ui/react-navigation-menu';
 export default function NavMenu() {
     let { user } = useAuth()
 
+    // TODO: replace Login/Logout with a Profile dropdown, with login logout as an option
+    // and view profile as another option, with another page going to that profile
+
     const loginLink = user === null ? <NM.Link href="/login">Login</NM.Link> : <button onClick={signOut}>Logout</button>
 
     return <NM.Root className='bg-accent text-secondary w-full py-4'>
