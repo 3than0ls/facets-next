@@ -12,9 +12,9 @@ export const initState = {
 
 export const enum ACTIONS {
     UPDATE_USERNAME,
+    ERROR_USERNAME,
     UPDATE_PASSWORD,
-    USERNAME_ERR,
-    PASSWORD_ERR,
+    ERROR_PASSWORD,
     CLEAR_ALL
 }
 
@@ -29,13 +29,32 @@ export const reducer = (state: typeof initState, action: ReducerAction): typeof 
             return { ...state, "username": action.payload ?? '' }
         case ACTIONS.UPDATE_PASSWORD:
             return { ...state, "password": action.payload ?? '' }
-        case ACTIONS.USERNAME_ERR:
+        case ACTIONS.ERROR_USERNAME:
             return { ...state, "username_error": action.payload ?? '' }
-        case ACTIONS.PASSWORD_ERR:
+        case ACTIONS.ERROR_PASSWORD:
             return { ...state, "password_error": action.payload ?? '' }
         case ACTIONS.CLEAR_ALL:
             return initState
         default:
-            throw new Error("Invalid Reducer Action for Login Error")
+            throw new Error(`Invalid Reducer Action: ${action}`)
+    }
+}
+
+
+/**
+ * * Generates update handlers that dispatch events.
+ *  Payload can be customized by specifying `payload` in each `ReducerAction` in `actions`
+ *  If payload is not specified, `e.target.value` is set as the payload.
+ * 
+ * @param dispatch Reducer dispatcher.
+ * @param actions  Array of `ReducerAction`. 
+ * @returns Update handler function.
+ */
+export function generateUpdateHandler(dispatch: React.Dispatch<ReducerAction>, actions: ReducerAction[]) {
+    // allows update handlers to be easily generated based on what action from ACTIONS you want to occur
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
+        for (let action of actions) {
+            dispatch!({ type: action.type, payload: action.payload ?? e.target.value })
+        }
     }
 }

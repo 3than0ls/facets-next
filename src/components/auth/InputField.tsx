@@ -9,7 +9,6 @@ type InputFieldProps = {
 
 const InputField = ({ label, onChange, error }: InputFieldProps) => {
     let borderColor = error === '' ? 'border-transparent' : 'border-red-600'
-    console.log(error)
 
     return (
         <div className="my-2">

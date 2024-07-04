@@ -1,5 +1,5 @@
 import NavMenu from '@/components/NavMenu'
-import AuthMenu from '@/components/login/AuthMenu'
+import AuthMenu from '@/components/auth/AuthMenu'
 import React from 'react'
 
 export default function Login() {
