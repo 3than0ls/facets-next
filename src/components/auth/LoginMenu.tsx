@@ -6,8 +6,8 @@ import InputButton from './InputButton'
 import { ACTIONS, reducer, initState, generateUpdateHandler } from './authReducer'
 import { validatePassword, validateUsername } from './validation'
 import { AuthApiError } from '@supabase/supabase-js'
-import { signIn } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
+import { login } from '@/utils/supabase/authActions'
 
 
 const LoginMenu = () => {
@@ -28,7 +28,7 @@ const LoginMenu = () => {
             return dispatch({ type: ACTIONS.ERROR_PASSWORD, payload: passwordIsValid.invalidReason })
 
         try {
-            await signIn({ username: state.username, password: state.password })
+            await login({ username: state.username, password: state.password })
         } catch (err) {
             if (err instanceof AuthApiError) {
                 dispatch({ type: ACTIONS.ERROR_USERNAME, payload: "Invalid login credentials." })

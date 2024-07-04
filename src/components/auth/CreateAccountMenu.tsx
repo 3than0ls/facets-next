@@ -4,10 +4,10 @@ import React, { useReducer } from 'react'
 import InputField from './InputField'
 import InputButton from './InputButton'
 import { ACTIONS, reducer, initState, generateUpdateHandler } from './authReducer'
-import { createAccount } from '@/utils/supabase/client'
 import { validatePassword, validateUsername } from './validation'
 import { AuthApiError } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
+import { createAccount } from '@/utils/supabase/authActions'
 
 
 

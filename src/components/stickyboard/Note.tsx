@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState } from 'react'
+import React from 'react'
 
 type NoteProps = {
     title?: string,

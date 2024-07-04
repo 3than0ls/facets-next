@@ -1,15 +1,33 @@
 "use client"
 
-import { useAuth } from '@/context/AuthContext';
-import { signOut } from '@/utils/supabase/client';
+import { logout } from '@/utils/supabase/authActions';
+import { createClient } from '@/utils/supabase/client';
 import * as NM from '@radix-ui/react-navigation-menu';
-export default function NavMenu() {
-    let { user } = useAuth()
+import { User } from '@supabase/supabase-js';
+import { useEffect, useState } from 'react';
+
+const supabase = createClient()
+
+const NavMenu = () => {
+    const [user, setUser] = useState<User | null>()
+
+    useEffect(() => {
+        const authUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser()
+            setUser(user)
+        }
+        authUser()
+    }, [])
+
+    const logoutOnClick = async () => {
+        await logout()
+        setUser(null)
+    }
 
     // TODO: replace Login/Logout with a Profile dropdown, with login logout as an option
     // and view profile as another option, with another page going to that profile
 
-    const loginLink = user === null ? <NM.Link href="/login">Login</NM.Link> : <button onClick={signOut}>Logout</button>
+    const loginLink = user === null ? <NM.Link href="/login">Login</NM.Link> : <button onClick={logoutOnClick}>Logout</button>
 
     return <NM.Root className='bg-accent text-secondary w-full py-4'>
         <NM.List className='flex justify-end w-full text-white'>
@@ -33,3 +51,5 @@ export default function NavMenu() {
         <NM.Viewport />
     </NM.Root>
 }
+
+export default NavMenu

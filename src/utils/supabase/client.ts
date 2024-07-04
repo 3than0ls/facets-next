@@ -1,41 +1,14 @@
-import { createClient } from '@supabase/supabase-js'
+/*
+ from https://supabase.com/docs/guides/auth/server-side/nextjs
+*/
 
-export const supabase = createClient(process.env.NEXT_PUBLIC_DATABASE_URL!, process.env.NEXT_PUBLIC_DATABASE_ANON_KEY!)
+import { createBrowserClient } from '@supabase/ssr'
 
-type AuthData = {
-    username: string,
-    password: string
-}
-
-export async function createAccount(newUserData: AuthData) {
-    const { data, error } = await supabase.auth.signUp({
-        email: `${newUserData.username}@supabase`,
-        password: newUserData.password,
-        options: {
-            data: { username: newUserData.username }
-        }
-    })
-
-    if (error)
-        throw error
-
-    console.log('created account with email', data?.user?.email)
-}
-
-
-export const signIn = async (signInUserData: AuthData) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email: `${signInUserData.username}@supabase`,
-        password: signInUserData.password,
-    })
-
-    if (error)
-        throw error
-
-    console.log('signed in ', data?.user?.email)
-}
-
-export const signOut = async () => {
-    await supabase.auth.signOut();
-    console.log('signed out!')
+export function createClient() {
+    // why not just export this value below?
+    // "On the client, createBrowserClient already uses a singleton pattern, so you only ever create one instance, no matter how many times you call your createClient function."  - SB guide
+    return createBrowserClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    )
 }
