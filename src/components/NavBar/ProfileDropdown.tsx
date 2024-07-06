@@ -15,25 +15,21 @@ const supabase = createClient()
 
 
 const ProfileDropdown = () => {
-    // TODO: replace Login/Logout with a Profile dropdown, with login logout as an option
-    // and view profile as another option, with another page going to that profile
     const [user, setUser] = useState<User | null | undefined>(undefined)
 
-    useEffect(() => {
-        const authUser = async () => {
-            const { data: { user } } = await supabase.auth.getUser()
-            setUser(user)
-        }
-        authUser()
-    }, [])
+    supabase.auth.onAuthStateChange((event, session) => {
+        // Update user if any auth state change occurs (login logout)
+        setUser(session?.user ?? null)
+    })
 
-    const logoutOnClick = async () => {
-        await logout()
-        setUser(null)
-    }
-
-    // TODO: replace Login/Logout with a Profile dropdown, with login logout as an option
-    // and view profile as another option, with another page going to that profile
+    // useEffect(() => {
+    //     // On mounting, update user as well
+    //     const authUser = async () => {
+    //         const { data: { user } } = await supabase.auth.getUser()
+    //         setUser(user)
+    //     }
+    //     authUser()
+    // }, [])
 
 
     return user === null ? <Link href="/login" text="Login" colorTheme='white' /> : (
@@ -63,7 +59,7 @@ const ProfileDropdown = () => {
                         <Link href="/user/" text="Your profile" />
                     </DM.Item>
                     <DM.Item className="hover:outline-none ml-5 mr-16">
-                        <Link onClick={logoutOnClick} href="/" text="Log out" />
+                        <Link onClick={async () => logout()} href="/" text="Log out" />
                     </DM.Item>
                     <DM.Arrow className="fill-primary mr-6" />
                 </DM.Content>

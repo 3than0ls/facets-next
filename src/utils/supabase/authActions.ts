@@ -21,7 +21,7 @@ export async function createAccount(newUserData: AuthData) {
     if (error)
         throw error
 
-    console.log('created account with email', data?.user?.email)
+    return data
 }
 
 
@@ -36,7 +36,7 @@ export const login = async (signInUserData: AuthData) => {
     if (error)
         throw error
 
-    console.log('signed in ', data?.user?.email)
+    return data
 }
 
 export const logout = async () => {

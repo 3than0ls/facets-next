@@ -1,3 +1,4 @@
+import NavBar from "@/components/NavBar/NavBar";
 import "./globals.css";
 
 
@@ -8,7 +9,8 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body>
+            <body className="h-screen bg-white flex flex-col">
+                <NavBar />
                 {children}</body>
         </html>
     );
