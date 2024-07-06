@@ -33,8 +33,7 @@ const CreateAccountMenu = () => {
             await createAccount({ username: state.username, password: state.password })
             router.push('/')
         } catch (err) {
-            dispatch({ type: ACTIONS.ERROR_USERNAME, payload: "Invalid login credentials." })
-            dispatch({ type: ACTIONS.ERROR_PASSWORD, payload: "Invalid login credentials." })
+            dispatch({ type: ACTIONS.ERROR_USERNAME, payload: "Username already exists." })
         }
     }
 
