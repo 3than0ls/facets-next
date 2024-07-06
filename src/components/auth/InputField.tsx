@@ -13,7 +13,7 @@ const InputField = ({ label, onChange, error }: InputFieldProps) => {
     return (
         <div className="my-2">
             <label htmlFor={label} className="text-md text-secondary mx-2">{label}</label>
-            <input id={label} onChange={onChange} className={`bg-primary mt-[2px] w-full h-full rounded-xl p-3 outline-none hover:outline-none border-2 hover:border-accent focus:border-accent ${borderColor} transition-colors duration-200`} />
+            <input id={label} onChange={onChange} className={`bg-primary mt-[2px] w-full h-full rounded-xl p-3 outline-none hover:outline-none border-2 hover:border-accent focus:border-accent ${borderColor} transition-colors duration-150`} />
             {error ? <span className="text-red-600 mt-[2px] mx-2">{error}</span> : ''}
         </div>
     )

@@ -50,14 +50,19 @@ const ProfileDropdown = () => {
 
             <DM.Portal>
                 <DM.Content
-                    className="pr-20 shadow-lg bg-primary rounded-lg mr-6 p-4 text-md will-change-[opacity,transform] data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade"
+                    className="shadow-lg bg-primary rounded-lg mr-8 py-4 text-md animate-dropdownMenu"
                     sideOffset={5}
                     side='top'
                 >
-                    <DM.Item className="hover:outline-none">
+                    <DM.Item className="hover:outline-none ml-5 mr-16 line text-accent">
+                        <div className="leading-none mt-[1px]">Logged in as:</div>
+                        <div className="text-md font-bold leading-normal">{user?.user_metadata?.username ?? "?"}</div>
+                    </DM.Item>
+                    <DM.Separator className="h-[2px] bg-accent my-2" />
+                    <DM.Item className="hover:outline-none ml-5 mr-16">
                         <Link href="/user/" text="Your profile" />
                     </DM.Item>
-                    <DM.Item className="hover:outline-none">
+                    <DM.Item className="hover:outline-none ml-5 mr-16">
                         <Link onClick={logoutOnClick} href="/" text="Log out" />
                     </DM.Item>
                     <DM.Arrow className="fill-primary mr-6" />
