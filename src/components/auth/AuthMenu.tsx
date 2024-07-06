@@ -20,10 +20,10 @@ const AuthMenu = async () => {
                     Create Account
                 </Tabs.Trigger>
             </Tabs.List>
-            <Tabs.Content className="w-full data-[state=active]:outline-none animate-slideLeftAndFade" value="login">
+            <Tabs.Content className="w-full data-[state=active]:outline-none animate-slideRightAndFade" value="login">
                 <LoginMenu />
             </Tabs.Content>
-            <Tabs.Content className="w-full data-[state=active]:outline-none animate-slideRightAndFade" value="create">
+            <Tabs.Content className="w-full data-[state=active]:outline-none animate-slideLeftAndFade" value="create">
                 <CreateAccountMenu />
             </Tabs.Content>
         </Tabs.Root >

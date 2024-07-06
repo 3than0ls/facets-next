@@ -24,11 +24,11 @@ const config: Config = {
                     to: { transform: 'scaleX(0%)', },
                 },
                 slideLeftAndFade: {
-                    from: { opacity: '0', transform: 'translateX(200px)' },
+                    from: { opacity: '0', transform: 'translateX(100px)' },
                     to: { opacity: '1', transform: 'translateX(0)' },
                 },
                 slideRightAndFade: {
-                    from: { opacity: '0', transform: 'translateX(-200px)' },
+                    from: { opacity: '0', transform: 'translateX(-100px)' },
                     to: { opacity: '1', transform: 'translateX(0)' },
                 },
                 dropdownMenu: {
