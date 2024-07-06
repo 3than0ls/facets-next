@@ -1,5 +1,4 @@
 import React from 'react'
-import Message from './Message'
 import Messages from './Messages'
 import MessageBox from './MessageBox'
 

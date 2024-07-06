@@ -1,14 +1,19 @@
-import * as SA from '@radix-ui/react-scroll-area';
+import * as SA from '@radix-ui/react-scroll-area'
 
 import React from 'react'
-import Message from './Message';
+import Message from './Message'
 
 const Messages = () => {
-    let messages = []
-    for (let i in Array.from({ length: 50 })) {
-        messages.push(<Message key={i} from_self={parseInt(i) % 2 === 0} message={`Message ${i} testing testing testing testing testing testing testing`} />)
+    const messages = []
+    for (const i in Array.from({ length: 50 })) {
+        messages.push(
+            <Message
+                key={i}
+                from_self={parseInt(i) % 2 === 0}
+                message={`Message ${i} testing testing testing testing testing testing testing`}
+            />,
+        )
     }
-
 
     return (
         <SA.Root className="h-full overflow-auto">

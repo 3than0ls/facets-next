@@ -1,7 +1,5 @@
-import Chat from "@/components/chat/Chat";
-import NavBar from "@/components/NavBar/NavBar";
-import Stickyboard from "@/components/stickyboard/Stickyboard";
-
+import Chat from '@/components/chat/Chat'
+import Stickyboard from '@/components/stickyboard/Stickyboard'
 
 export default function Home() {
     return (
@@ -9,5 +7,5 @@ export default function Home() {
             <Chat />
             <Stickyboard />
         </div>
-    );
+    )
 }

@@ -1,9 +1,8 @@
 'use server'
 import { createClient } from '@/utils/supabase/server'
 
-
 type AuthData = {
-    username: string,
+    username: string
     password: string
 }
 
@@ -14,16 +13,14 @@ export async function createAccount(newUserData: AuthData) {
         email: `${newUserData.username}@supabase`,
         password: newUserData.password,
         options: {
-            data: { username: newUserData.username }
-        }
+            data: { username: newUserData.username },
+        },
     })
 
-    if (error)
-        throw error
+    if (error) throw error
 
     return data
 }
-
 
 export const login = async (signInUserData: AuthData) => {
     const supabase = await createClient()
@@ -33,8 +30,7 @@ export const login = async (signInUserData: AuthData) => {
         password: signInUserData.password,
     })
 
-    if (error)
-        throw error
+    if (error) throw error
 
     return data
 }
@@ -42,6 +38,5 @@ export const login = async (signInUserData: AuthData) => {
 export const logout = async () => {
     const supabase = await createClient()
 
-    await supabase.auth.signOut();
-    console.log('signed out!')
+    await supabase.auth.signOut()
 }

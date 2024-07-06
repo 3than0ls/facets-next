@@ -1,4 +1,3 @@
-import NavBar from '@/components/NavBar/NavBar'
 import AuthMenu from '@/components/auth/AuthMenu'
 import React from 'react'
 

@@ -1,38 +1,45 @@
 {
-  "name": "facets-next",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@prisma/client": "^5.16.1",
-    "@radix-ui/react-avatar": "^1.1.0",
-    "@radix-ui/react-dropdown-menu": "^2.1.1",
-    "@radix-ui/react-navigation-menu": "^1.2.0",
-    "@radix-ui/react-scroll-area": "^1.1.0",
-    "@radix-ui/react-tabs": "^1.1.0",
-    "@supabase/ssr": "^0.4.0",
-    "@supabase/supabase-js": "^2.44.2",
-    "install": "^0.13.0",
-    "next": "14.2.4",
-    "npm": "^10.8.1",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-icons": "^5.2.1"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.4",
-    "postcss": "^8",
-    "prisma": "^5.16.1",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
-  }
+    "name": "facets-next",
+    "version": "0.1.0",
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "eslint . --fix",
+        "pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\""
+    },
+    "dependencies": {
+        "@prisma/client": "^5.16.1",
+        "@radix-ui/react-avatar": "^1.1.0",
+        "@radix-ui/react-dropdown-menu": "^2.1.1",
+        "@radix-ui/react-navigation-menu": "^1.2.0",
+        "@radix-ui/react-scroll-area": "^1.1.0",
+        "@radix-ui/react-tabs": "^1.1.0",
+        "@supabase/ssr": "^0.4.0",
+        "@supabase/supabase-js": "^2.44.2",
+        "install": "^0.13.0",
+        "next": "14.2.4",
+        "npm": "^10.8.1",
+        "react": "^18",
+        "react-dom": "^18",
+        "react-icons": "^5.2.1"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.6.0",
+        "@types/eslint__js": "^8.42.3",
+        "@types/node": "^20",
+        "@types/react": "^18",
+        "@types/react-dom": "^18",
+        "eslint": "^9.6.0",
+        "eslint-config-next": "14.2.4",
+        "eslint-plugin-unused-imports": "^4.0.0",
+        "postcss": "^8",
+        "prettier": "^3.3.2",
+        "prisma": "^5.16.1",
+        "tailwindcss": "^3.4.1",
+        "typescript": "^5.5.3",
+        "typescript-eslint": "^7.15.0"
+    }
 }

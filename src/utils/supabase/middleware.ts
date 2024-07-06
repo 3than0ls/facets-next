@@ -1,9 +1,8 @@
 /*
- from https://supabase.com/docs/guides/auth/server-side/nextjs
+ based from https://supabase.com/docs/guides/auth/server-side/nextjs
 */
 
 import { createServerClient } from '@supabase/ssr'
-import { NextURL } from 'next/dist/server/web/next-url'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function updateSession(request: NextRequest) {
@@ -20,16 +19,18 @@ export async function updateSession(request: NextRequest) {
                     return request.cookies.getAll()
                 },
                 setAll(cookiesToSet) {
-                    cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+                    cookiesToSet.forEach(({ name, value }) =>
+                        request.cookies.set(name, value),
+                    )
                     supabaseResponse = NextResponse.next({
                         request,
                     })
                     cookiesToSet.forEach(({ name, value, options }) =>
-                        supabaseResponse.cookies.set(name, value, options)
+                        supabaseResponse.cookies.set(name, value, options),
                     )
                 },
             },
-        }
+        },
     )
 
     // IMPORTANT: Avoid writing any logic between createServerClient and
