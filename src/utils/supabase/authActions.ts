@@ -1,5 +1,6 @@
-'use server'
-import { createClient } from '@/utils/supabase/server'
+'use client'
+
+import { createClient } from '@/utils/supabase/client'
 
 type AuthData = {
     username: string
@@ -16,7 +17,7 @@ type AuthData = {
  * @returns User and session data from creating the user
  */
 export async function createAccount(newUserData: AuthData) {
-    const supabase = await createClient()
+    const supabase = createClient()
 
     const { data, error } = await supabase.auth.signUp({
         email: `${newUserData.username}@supabase`,
@@ -32,12 +33,14 @@ export async function createAccount(newUserData: AuthData) {
 }
 
 export const login = async (signInUserData: AuthData) => {
-    const supabase = await createClient()
+    const supabase = createClient()
 
     const { data, error } = await supabase.auth.signInWithPassword({
         email: `${signInUserData.username}@supabase`,
         password: signInUserData.password,
     })
+
+    console.log('DO SFOMEITHGING')
 
     if (error) throw error
 
@@ -45,7 +48,7 @@ export const login = async (signInUserData: AuthData) => {
 }
 
 export const logout = async () => {
-    const supabase = await createClient()
+    const supabase = createClient()
 
     await supabase.auth.signOut()
 }
