@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { logout } from '@/utils/supabase/authActions'
 import { User } from '@supabase/supabase-js'
 import { createClient } from '@/utils/supabase/client'
@@ -14,19 +14,16 @@ const supabase = createClient()
 const ProfileDropdown = () => {
     const [user, setUser] = useState<User | null | undefined>(undefined)
 
-    supabase.auth.onAuthStateChange((event, session) => {
-        // Update user if any auth state change occurs (login logout)
-        setUser(session?.user ?? null)
+    useEffect(() => {
+        const { data: authListener } = supabase.auth.onAuthStateChange(
+            (event, session) => {
+                setUser(session?.user ?? null)
+            },
+        )
+        return () => {
+            authListener.subscription.unsubscribe()
+        }
     })
-
-    // useEffect(() => {
-    //     // On mounting, update user as well
-    //     const authUser = async () => {
-    //         const { data: { user } } = await supabase.auth.getUser()
-    //         setUser(user)
-    //     }
-    //     authUser()
-    // }, [])
 
     return user === null ? (
         <Link href="/login" text="Login" colorTheme="white" />
