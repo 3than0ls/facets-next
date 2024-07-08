@@ -6,6 +6,15 @@ type AuthData = {
     password: string
 }
 
+/**
+ * Creates a new Supabase Auth user. Note that this itself does not create a Supabase public user (as seen in the Prisma schema).
+ * That public user is created itself via a function trigger set on Supabase.
+ * If this method seems unfavorable, you can also remove the function trigger and just create the auth user with supabase.auth
+ * and create the public user with Prisma create or supabase.
+ *
+ * @param newUserData Username and password for new user
+ * @returns User and session data from creating the user
+ */
 export async function createAccount(newUserData: AuthData) {
     const supabase = await createClient()
 
