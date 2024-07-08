@@ -23,7 +23,7 @@ const ProfileDropdown = () => {
         return () => {
             authListener.subscription.unsubscribe()
         }
-    })
+    }, [])
 
     return user === null ? (
         <Link href="/login" text="Login" colorTheme="white" />

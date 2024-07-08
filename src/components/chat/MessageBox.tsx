@@ -3,17 +3,23 @@
 import { createClient } from '@/utils/supabase/client'
 import usePostMessage from '@/utils/swr/postMessage'
 import { User } from '@supabase/supabase-js'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TbSend } from 'react-icons/tb'
 const supabase = createClient()
 
 const MessageBox = () => {
     const [user, setUser] = useState<User | null | undefined>(undefined)
 
-    supabase.auth.onAuthStateChange((event, session) => {
-        // Update user if any auth state change occurs (login logout)
-        setUser(session?.user ?? null)
-    })
+    useEffect(() => {
+        const { data: authListener } = supabase.auth.onAuthStateChange(
+            (event, session) => {
+                setUser(session?.user ?? null)
+            },
+        )
+        return () => {
+            authListener.subscription.unsubscribe()
+        }
+    }, [])
 
     const [message, setMessage] = useState('')
 
@@ -33,6 +39,8 @@ const MessageBox = () => {
 
         console.log(result)
     }
+
+    // TODO: turn this into a form, have an onSubmit and a name for the input
 
     return (
         <div className="flex flex-row h-24 w-full border-accent focus:outline-accent p-2">

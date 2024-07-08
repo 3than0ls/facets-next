@@ -12,7 +12,6 @@ export default function usePostMessage() {
         url: string,
         { arg }: { arg: PostMessageBody },
     ) => {
-        console.log('fetching!')
         return fetch(url, {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },

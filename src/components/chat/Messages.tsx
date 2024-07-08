@@ -9,7 +9,7 @@ const Messages = () => {
         messages.push(
             <Message
                 key={i}
-                from_self={parseInt(i) % 2 === 0}
+                selfAuthor={parseInt(i) % 2 === 0}
                 message={`Message ${i} testing testing testing testing testing testing testing`}
             />,
         )
