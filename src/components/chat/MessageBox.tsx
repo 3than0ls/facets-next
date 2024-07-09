@@ -46,6 +46,7 @@ const MessageBox = () => {
 
     return (
         <form
+            autoComplete="off"
             onSubmit={sendMessage}
             className="flex flex-row h-24 w-full border-accent focus:outline-accent p-2"
         >

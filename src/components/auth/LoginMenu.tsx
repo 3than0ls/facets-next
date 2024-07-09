@@ -61,7 +61,11 @@ const LoginMenu = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="w-full px-16 flex flex-col">
+        <form
+            autoComplete="off"
+            onSubmit={handleSubmit}
+            className="w-full px-16 flex flex-col"
+        >
             <InputField
                 error={state.usernameError}
                 onChange={handleUpdateUsername}
