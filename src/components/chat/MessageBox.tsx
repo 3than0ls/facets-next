@@ -5,11 +5,11 @@ import usePostMessage from '@/utils/swr/postMessage'
 import { User } from '@supabase/supabase-js'
 import React, { useState, useEffect } from 'react'
 import { TbSend } from 'react-icons/tb'
+import HoverText from '../HoverText'
 const supabase = createClient()
 
 const MessageBox = () => {
     const [user, setUser] = useState<User | null | undefined>(undefined)
-
     useEffect(() => {
         const { data: authListener } = supabase.auth.onAuthStateChange(
             (event, session) => {
@@ -20,12 +20,12 @@ const MessageBox = () => {
             authListener.subscription.unsubscribe()
         }
     }, [])
+    const notSignedInEffect =
+        user === null
+            ? 'filter grayscale hover:cursor-not-allowed'
+            : 'hover:border-accent focus:border-accent'
 
     const [message, setMessage] = useState('')
-
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setMessage(e.target.value)
-    }
 
     const postMessage = usePostMessage()
 
@@ -49,18 +49,28 @@ const MessageBox = () => {
             onSubmit={sendMessage}
             className="flex flex-row h-24 w-full border-accent focus:outline-accent p-2"
         >
-            <input
-                name="message"
-                value={message}
-                onChange={onChange}
-                className="bg-primary w-full h-full rounded-l-xl p-2 outline-none hover:outline-none border-2 border-transparent hover:border-accent focus:border-accent transition-colors duration-200"
-            />
-            <button
-                type="submit"
-                className="bg-accent h-full min-w-8 my-auto flex rounded-r-md"
+            <HoverText
+                className="flex w-full h-full"
+                enabled={!user}
+                text="Log in to send messages"
             >
-                <TbSend color="white" className="m-auto" />
-            </button>
+                <input
+                    disabled={!user}
+                    name="message"
+                    value={message}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        setMessage(e.target.value)
+                    }}
+                    className={`${notSignedInEffect} bg-primary w-full h-full rounded-l-xl p-2 outline-none hover:outline-none border-2 border-transparent transition-colors duration-200`}
+                />
+                <button
+                    disabled={!user}
+                    type="submit"
+                    className={`${notSignedInEffect} bg-accent h-full min-w-8 my-auto flex rounded-r-md`}
+                >
+                    <TbSend color="white" className="m-auto" />
+                </button>
+            </HoverText>
         </form>
     )
 }
