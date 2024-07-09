@@ -50,7 +50,7 @@ const CreateAccountMenu = () => {
                 username: state.username,
                 password: state.password,
             })
-            router.push('/')
+            router.refresh()
         } catch {
             dispatch({
                 type: ACTIONS.ERROR_USERNAME,

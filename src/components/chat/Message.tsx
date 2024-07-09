@@ -1,18 +1,18 @@
 import React from 'react'
 
 type MessageProps = {
-    message: string
+    text: string
     selfAuthor?: boolean
 }
 
-const Message = ({ message, selfAuthor = false }: MessageProps) => {
-    const selfAuthorStyle = selfAuthor ? 'ml-6' : 'mr-6'
+const Message = ({ text, selfAuthor = false }: MessageProps) => {
+    const selfAuthorStyle = selfAuthor
+        ? 'ml-12 bg-primary text-secondary rounded-br'
+        : 'mr-12 bg-primary text-secondary rounded-bl'
 
     return (
-        <div
-            className={`p-3 text-secondary bg-primary rounded-xl rounded-tl m-3 ${selfAuthorStyle}`}
-        >
-            {message}
+        <div className={`p-3 rounded-xl m-[10px]  ${selfAuthorStyle}`}>
+            {text}
         </div>
     )
 }

@@ -32,22 +32,26 @@ const LoginMenu = () => {
 
         // some validation
         const usernameIsValid = validateUsername(state.username)
-        if (!usernameIsValid.valid)
+        if (!usernameIsValid.valid) {
             return dispatch({
                 type: ACTIONS.ERROR_USERNAME,
                 payload: usernameIsValid.invalidReason,
             })
+        }
 
         const passwordIsValid = validatePassword(state.password)
-        if (!passwordIsValid.valid)
+        if (!passwordIsValid.valid) {
             return dispatch({
                 type: ACTIONS.ERROR_PASSWORD,
                 payload: passwordIsValid.invalidReason,
             })
+        }
 
         try {
             await login({ username: state.username, password: state.password })
-            router.push('/')
+
+            // don't need to use router.push('/') because middleware will automatically redirect to home page, plus this refreshes page. Same applies for CreateAccount
+            router.refresh()
         } catch {
             dispatch({
                 type: ACTIONS.ERROR_USERNAME,

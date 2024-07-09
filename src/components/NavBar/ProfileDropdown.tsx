@@ -8,11 +8,13 @@ import { createClient } from '@/utils/supabase/client'
 import * as A from '@radix-ui/react-avatar'
 import * as DM from '@radix-ui/react-dropdown-menu'
 import Link from '../Link'
+import { useRouter } from 'next/navigation'
 
 const supabase = createClient()
 
 const ProfileDropdown = () => {
     const [user, setUser] = useState<User | null | undefined>(undefined)
+    const router = useRouter()
 
     useEffect(() => {
         const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -24,6 +26,11 @@ const ProfileDropdown = () => {
             authListener.subscription.unsubscribe()
         }
     }, [])
+
+    const logoutOnClick = async () => {
+        await logout()
+        router.refresh()
+    }
 
     return user === null ? (
         <Link href="/login" text="Login" colorTheme="white" />
@@ -57,11 +64,7 @@ const ProfileDropdown = () => {
                         <Link href="/user/" text="Your profile" />
                     </DM.Item>
                     <DM.Item className="hover:outline-none ml-5 mr-16">
-                        <Link
-                            onClick={async () => logout()}
-                            href="/"
-                            text="Log out"
-                        />
+                        <Link onClick={logoutOnClick} href="/" text="Log out" />
                     </DM.Item>
                     <DM.Arrow className="fill-primary mr-6" />
                 </DM.Content>

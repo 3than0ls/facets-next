@@ -1,24 +1,50 @@
+'use client'
+
 import * as SA from '@radix-ui/react-scroll-area'
 
-import React from 'react'
+import React, { useLayoutEffect, useState, useRef, useEffect } from 'react'
 import Message from './Message'
+import MessagesLoadingScreen from './MessagesLoadingScreen'
 
-const Messages = () => {
-    const messages = []
-    for (const i in Array.from({ length: 50 })) {
-        messages.push(
-            <Message
-                key={i}
-                selfAuthor={parseInt(i) % 2 === 0}
-                message={`Message ${i} testing testing testing testing testing testing testing`}
-            />,
-        )
+type MessagesProps = {
+    serverProps: {
+        serverMessageComponents: React.ReactElement<typeof Message>[]
     }
+}
+
+const Messages = ({
+    serverProps: { serverMessageComponents },
+}: MessagesProps) => {
+    const [messageComponents, setMessageComponents] = useState([
+        ...serverMessageComponents,
+    ])
+    const [loading, setLoading] = useState(true)
+
+    const viewportRef = useRef<HTMLDivElement>(null)
+
+    const scrollToBottom = () => {
+        viewportRef.current?.scrollTo({
+            behavior: 'auto',
+            top: viewportRef.current.scrollHeight,
+        })
+    }
+
+    useLayoutEffect(() => {
+        // stupid useLayoutEffect won't work before rendering, probably cause of useRef. damnit.
+        // EVENTUALLY TO BE REPLACED WITH https://www.npmjs.com/package/react-infinite-scroller
+        scrollToBottom()
+        setLoading(false)
+    }, [])
 
     return (
         <SA.Root className="h-full overflow-auto">
-            <SA.Viewport className="h-full overflow-hidden">
-                {...messages}
+            <SA.Viewport
+                id="viewport"
+                ref={viewportRef}
+                className="h-full overflow-hidden w-full"
+            >
+                <MessagesLoadingScreen isLoading={loading} />
+                {...messageComponents}
             </SA.Viewport>
             <SA.Scrollbar
                 className="flex select-none touch-none transition-all w-[4px] mx-[2px] duration-[160ms] ease-out overflow-hidden"
