@@ -1,10 +1,8 @@
 'use client'
 
-import * as SA from '@radix-ui/react-scroll-area'
-
-import React, { useLayoutEffect, useState, useRef, useEffect } from 'react'
+import React, { useState } from 'react'
 import Message from './Message'
-import MessagesLoadingScreen from './MessagesLoadingScreen'
+import ChatScroll from './ChatScroll'
 
 type MessagesProps = {
     serverProps: {
@@ -18,41 +16,17 @@ const Messages = ({
     const [messageComponents, setMessageComponents] = useState([
         ...serverMessageComponents,
     ])
-    const [loading, setLoading] = useState(true)
 
-    const viewportRef = useRef<HTMLDivElement>(null)
-
-    const scrollToBottom = () => {
-        viewportRef.current?.scrollTo({
-            behavior: 'auto',
-            top: viewportRef.current.scrollHeight,
-        })
+    const loadMore = () => {
+        const newMessage = <Message text="new inserted message" />
+        setMessageComponents([...messageComponents, newMessage].slice(0, 50))
+        console.log('fetching more data', serverMessageComponents.length)
     }
 
-    useLayoutEffect(() => {
-        // stupid useLayoutEffect won't work before rendering, probably cause of useRef. damnit.
-        // EVENTUALLY TO BE REPLACED WITH https://www.npmjs.com/package/react-infinite-scroller
-        scrollToBottom()
-        setLoading(false)
-    }, [])
-
     return (
-        <SA.Root className="h-full overflow-auto">
-            <SA.Viewport
-                id="viewport"
-                ref={viewportRef}
-                className="h-full overflow-hidden w-full"
-            >
-                <MessagesLoadingScreen isLoading={loading} />
-                {...messageComponents}
-            </SA.Viewport>
-            <SA.Scrollbar
-                className="flex select-none touch-none transition-all w-[4px] mx-[2px] duration-[160ms] ease-out overflow-hidden"
-                orientation="vertical"
-            >
-                <SA.Thumb className="flex-1 bg-accent rounded-md relative" />
-            </SA.Scrollbar>
-        </SA.Root>
+        <ChatScroll className="w-full h-full overflow-auto" loadMore={loadMore}>
+            {...messageComponents}
+        </ChatScroll>
     )
 }
 

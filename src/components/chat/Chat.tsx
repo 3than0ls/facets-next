@@ -14,7 +14,7 @@ const Chat = async () => {
     const serverMessageData = await prisma.message.findMany({
         take: 50,
         orderBy: {
-            sentAt: 'asc',
+            sentAt: 'desc', // ordered by descending, that way newest messages are first
         },
     })
 

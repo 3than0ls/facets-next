@@ -15,6 +15,10 @@ const config: Config = {
                 border: '#f3f4f6',
             },
             keyframes: {
+                fadeIn: {
+                    from: { opacity: '0' },
+                    to: { opacity: '1' },
+                },
                 underlineAnimationExpand: {
                     from: { transform: 'scaleX(0%)' },
                     to: { transform: 'scaleX(100%)' },
@@ -47,6 +51,7 @@ const config: Config = {
                     'slideLeftAndFade 850ms cubic-bezier(0.16, 1, 0.3, 1)',
                 slideRightAndFade:
                     'slideRightAndFade 850ms cubic-bezier(0.16, 1, 0.3, 1)',
+                chatLoadingFade: 'fadeIn 450ms cubic-bezier(0.16, 1, 0.3, 1)',
                 dropdownMenu:
                     'dropdownMenu 500ms cubic-bezier(0.16, 1, 0.3, 1)',
                 underlineAnimationExpand:
