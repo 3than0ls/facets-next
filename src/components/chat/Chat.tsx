@@ -36,7 +36,7 @@ const Chat = async () => {
             <Messages
                 serverProps={{ serverMessageComponents: messageComponents }}
             />
-            <MessageBox />
+            <MessageBox serverProps={{ loggedIn: !!data.user }} />
         </div>
     )
 }

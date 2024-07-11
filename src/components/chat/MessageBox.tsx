@@ -1,20 +1,31 @@
 'use client'
 
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { TbSend } from 'react-icons/tb'
 import HoverText from '../HoverText'
 import { useAuth } from '@/context/AuthContext'
 import postMessage from '@/actions/postMessage'
 
-const MessageBox = () => {
+type MessageBoxProps = {
+    serverProps: {
+        loggedIn: boolean
+    }
+}
+
+const MessageBox = ({ serverProps: { loggedIn } }: MessageBoxProps) => {
     const { user } = useAuth()
 
-    const notSignedInEffect =
-        user === null
-            ? 'filter grayscale hover:cursor-not-allowed'
-            : 'hover:border-accent focus:border-accent'
+    const [applyLoginEffects, setApplyLoginEffects] = useState(loggedIn)
+
+    const loginEffects = applyLoginEffects
+        ? 'hover:border-accent focus:border-accent'
+        : 'filter grayscale hover:cursor-not-allowed'
 
     const formRef = useRef<HTMLFormElement>(null)
+
+    useEffect(() => {
+        setApplyLoginEffects(!!user)
+    }, [user])
 
     // const postMessage = usePostMessage()
 
@@ -45,18 +56,18 @@ const MessageBox = () => {
         >
             <HoverText
                 className="flex w-full h-full"
-                enabled={!user}
+                enabled={!applyLoginEffects}
                 text="Log in to send messages"
             >
                 <input
-                    disabled={!user}
+                    disabled={!applyLoginEffects}
                     name="message"
-                    className={`${notSignedInEffect} bg-primary w-full h-full rounded-l-xl p-2 outline-none hover:outline-none border-2 border-transparent transition-colors duration-200`}
+                    className={`${loginEffects} bg-primary w-full h-full rounded-l-xl p-2 outline-none hover:outline-none border-2 border-transparent transition-colors duration-200`}
                 />
                 <button
-                    disabled={!user}
+                    disabled={!applyLoginEffects}
                     type="submit"
-                    className={`${notSignedInEffect} bg-accent h-full min-w-8 my-auto flex rounded-r-md`}
+                    className={`${loginEffects} bg-accent h-full min-w-8 my-auto flex rounded-r-md`}
                 >
                     <TbSend color="white" className="m-auto" />
                 </button>

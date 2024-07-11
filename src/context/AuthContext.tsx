@@ -1,35 +1,34 @@
 'use client'
 
 import React, { useContext, createContext, useState, useEffect } from 'react'
-import { Session, User } from '@supabase/supabase-js'
+import { User } from '@supabase/supabase-js'
 import { createClient } from '@/utils/supabase/client'
 
-interface AuthProviderProps {
+type AuthProviderProps = {
+    serverProps: {
+        initUser: User | null
+    }
     children: React.ReactNode
 }
 
 type AuthContextType = {
-    session: Session | undefined | null
     user: User | undefined | null
 }
 
 const AuthContext = createContext<AuthContextType>({
-    session: undefined,
     user: undefined,
 })
 
-const AuthProvider = ({ children }: AuthProviderProps) => {
+const AuthProvider = ({
+    serverProps: { initUser },
+    children,
+}: AuthProviderProps) => {
     const supabase = createClient()
-
-    const [session, setSession] = useState<Session | undefined | null>(
-        undefined,
-    )
-    const [user, setUser] = useState<User | undefined | null>(undefined)
+    const [user, setUser] = useState<User | undefined | null>(initUser)
 
     useEffect(() => {
         const { data: authListener } = supabase.auth.onAuthStateChange(
             (event, session) => {
-                setSession(session ?? null)
                 setUser(session?.user ?? null)
             },
         )
@@ -39,9 +38,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ session, user }}>
-            {children}
-        </AuthContext.Provider>
+        <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
     )
 }
 
