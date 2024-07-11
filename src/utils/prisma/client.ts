@@ -1,9 +1,6 @@
 /* 
-    A lot of information looking up later, I've resolved that trying to force Prisma into this project really isn't the way.
     See: https://www.reddit.com/r/Supabase/comments/p6mueg/why_would_you_use_prisma_with_supabase/
-
-    It is, however, theoretically possible.
-    See: https://github.com/dthyresson/prisma-extension-supabase-rls?tab=readme-ov-file#prisma-client-with-supabase-rls-enforced-with-claims-from-context-and-custom-error
+        and https://www.reddit.com/r/Supabase/comments/p6mueg/comment/h9e3nht/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
     
 */
 

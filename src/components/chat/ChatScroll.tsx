@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { TbRefresh } from 'react-icons/tb'
 
 type ChatScrollProps = {
@@ -10,24 +10,24 @@ type ChatScrollProps = {
     children: React.ReactNode[]
 }
 
+const scrollIsAtThreshold = (element: HTMLDivElement, threshold: number) => {
+    const value = Math.abs(
+        -element.scrollTop + element.clientHeight - element.scrollHeight,
+    )
+    return value <= threshold
+}
+
 const ChatScroll = ({
     loadMore,
     className,
-    threshold = 5,
+    threshold = 500,
     children,
 }: ChatScrollProps) => {
-    const scrollIsAtThreshold = (element: HTMLDivElement) => {
-        const value = Math.abs(
-            -element.scrollTop + element.clientHeight - element.scrollHeight,
-        )
-        return value <= threshold
-    }
-
     const [currentlyLoading, setCurrentlyLoading] = useState(false)
 
     const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
         if (
-            scrollIsAtThreshold(e.currentTarget) &&
+            scrollIsAtThreshold(e.currentTarget, threshold) &&
             !currentlyLoading &&
             hasMore
         ) {

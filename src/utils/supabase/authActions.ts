@@ -40,8 +40,6 @@ export const login = async (signInUserData: AuthData) => {
         password: signInUserData.password,
     })
 
-    console.log('DO SFOMEITHGING')
-
     if (error) throw error
 
     return data

@@ -1,5 +1,3 @@
-/* eslint-disable unused-imports/no-unused-vars */
-
 /*
     Because CreateAccountMenu and LoginMenu deal with the literal same data, we can simply reuse the reducer functions
 */
