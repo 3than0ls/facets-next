@@ -1,33 +1,19 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
-import { TbSend } from 'react-icons/tb'
+import React, { useRef } from 'react'
 import HoverText from '../HoverText'
 import { useAuth } from '@/context/AuthContext'
 import postMessage from '@/actions/postMessage'
+import SendButton from './SendButton'
 
-type MessageBoxProps = {
-    serverProps: {
-        loggedIn: boolean
-    }
-}
-
-const MessageBox = ({ serverProps: { loggedIn } }: MessageBoxProps) => {
+const MessageBox = () => {
     const { user } = useAuth()
 
-    const [applyLoginEffects, setApplyLoginEffects] = useState(loggedIn)
-
-    const loginEffects = applyLoginEffects
+    const loginEffects = user
         ? 'hover:border-accent focus:border-accent'
         : 'filter grayscale hover:cursor-not-allowed'
 
     const formRef = useRef<HTMLFormElement>(null)
-
-    useEffect(() => {
-        setApplyLoginEffects(!!user)
-    }, [user])
-
-    // const postMessage = usePostMessage()
 
     const sendMessage = async (formData: FormData) => {
         // prefer quick and easy check to ensure that we don't spam server with invalid Post requests (empty message)
@@ -56,21 +42,18 @@ const MessageBox = ({ serverProps: { loggedIn } }: MessageBoxProps) => {
         >
             <HoverText
                 className="flex w-full h-full"
-                enabled={!applyLoginEffects}
+                enabled={!user}
                 text="Log in to send messages"
             >
                 <input
-                    disabled={!applyLoginEffects}
+                    disabled={!user}
                     name="message"
                     className={`${loginEffects} bg-primary w-full h-full rounded-l-xl p-2 outline-none hover:outline-none border-2 border-transparent transition-colors duration-200`}
                 />
-                <button
-                    disabled={!applyLoginEffects}
-                    type="submit"
-                    className={`${loginEffects} bg-accent h-full min-w-8 my-auto flex rounded-r-md`}
-                >
-                    <TbSend color="white" className="m-auto" />
-                </button>
+                <SendButton
+                    className={`${loginEffects} bg-accent h-full min-w-10 flex items-center justify-center rounded-r-md`}
+                    disabled={!user}
+                />
             </HoverText>
         </form>
     )
