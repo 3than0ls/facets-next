@@ -1,10 +1,10 @@
 'use client'
 
-import usePostMessage from '@/utils/swr/postMessage'
 import React, { useState } from 'react'
 import { TbSend } from 'react-icons/tb'
 import HoverText from '../HoverText'
 import { useAuth } from '@/context/AuthContext'
+import postMessage from '@/actions/postMessage'
 
 const MessageBox = () => {
     const { user } = useAuth()
@@ -16,27 +16,30 @@ const MessageBox = () => {
 
     const [message, setMessage] = useState('')
 
-    const postMessage = usePostMessage()
+    // const postMessage = usePostMessage()
 
-    const sendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        event.stopPropagation()
+    const sendMessage = async (formData: FormData) => {
+        // prefer quick and easy check to ensure that we don't spam server with invalid Post requests (empty message)
+        if (!message) return
 
         // this should be handled client side by just preventing clicking
         if (!user) {
             throw new Error('Not signed in')
         }
 
-        const result = await postMessage({ text: message })
+        // should probably check if result OK or if any errors were returned
+        // But assuming the user got this far validly, there will be no errors, nor a use for the response
+        // If they haven't... well it's not my problem to deal with those edge case users
+        await postMessage(formData)
 
-        // should probably check if result OK
+        // clear message
         setMessage('')
     }
 
     return (
         <form
             autoComplete="off"
-            onSubmit={sendMessage}
+            action={sendMessage}
             className="flex flex-row h-24 w-full border-accent focus:outline-accent p-2"
         >
             <HoverText

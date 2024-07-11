@@ -50,3 +50,7 @@ export const useAuth = (): AuthContextType => {
 }
 
 export default AuthProvider
+
+// learned from: https://www.youtube.com/watch?v=05ZM4ymK9Nc
+// and https://www.youtube.com/watch?v=hn-c0u2mDIQ
+// and then of course, from supabase for the onAuthStateChange part
