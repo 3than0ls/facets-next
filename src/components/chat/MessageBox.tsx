@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 import { TbSend } from 'react-icons/tb'
 import HoverText from '../HoverText'
 import { useAuth } from '@/context/AuthContext'
@@ -14,13 +14,13 @@ const MessageBox = () => {
             ? 'filter grayscale hover:cursor-not-allowed'
             : 'hover:border-accent focus:border-accent'
 
-    const [message, setMessage] = useState('')
+    const formRef = useRef<HTMLFormElement>(null)
 
     // const postMessage = usePostMessage()
 
     const sendMessage = async (formData: FormData) => {
         // prefer quick and easy check to ensure that we don't spam server with invalid Post requests (empty message)
-        if (!message) return
+        if (!formData.get('message')) return
 
         // this should be handled client side by just preventing clicking
         if (!user) {
@@ -32,14 +32,15 @@ const MessageBox = () => {
         // If they haven't... well it's not my problem to deal with those edge case users
         await postMessage(formData)
 
-        // clear message
-        setMessage('')
+        // clear message and unset pending
+        formRef.current?.reset()
     }
 
     return (
         <form
             autoComplete="off"
             action={sendMessage}
+            ref={formRef}
             className="flex flex-row h-24 w-full border-accent focus:outline-accent p-2"
         >
             <HoverText
@@ -50,10 +51,6 @@ const MessageBox = () => {
                 <input
                     disabled={!user}
                     name="message"
-                    value={message}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setMessage(e.target.value)
-                    }}
                     className={`${notSignedInEffect} bg-primary w-full h-full rounded-l-xl p-2 outline-none hover:outline-none border-2 border-transparent transition-colors duration-200`}
                 />
                 <button
