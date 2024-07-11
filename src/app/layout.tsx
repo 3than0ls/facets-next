@@ -1,4 +1,5 @@
 import NavBar from '@/components/navbar/NavBar'
+import AuthProvider from '@/context/AuthContext'
 import './globals.css'
 
 export default function RootLayout({
@@ -8,10 +9,12 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className="h-screen bg-white flex flex-col">
-                <NavBar />
-                {children}
-            </body>
+            <AuthProvider>
+                <body className="h-screen bg-white flex flex-col">
+                    <NavBar />
+                    {children}
+                </body>
+            </AuthProvider>
         </html>
     )
 }

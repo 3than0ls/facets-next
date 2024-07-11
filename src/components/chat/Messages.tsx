@@ -5,6 +5,7 @@ import Message from './Message'
 import { User } from '@supabase/supabase-js'
 import ChatScroll from './ChatScroll'
 import { createClient } from '@/utils/supabase/client'
+import { useAuth } from '@/context/AuthContext'
 
 type MessagesProps = {
     serverProps: {
@@ -17,19 +18,7 @@ const Messages = ({
 }: MessagesProps) => {
     const supabase = createClient()
 
-    const [user, setUser] = useState<User | null | undefined>(undefined)
-
-    useEffect(() => {
-        const { data: authListener } = supabase.auth.onAuthStateChange(
-            (event, session) => {
-                setUser(session?.user ?? null)
-                console.log(event)
-            },
-        )
-        return () => {
-            authListener.subscription.unsubscribe()
-        }
-    }, [])
+    const { user } = useAuth()
 
     const [messageComponents, setMessageComponents] = useState([
         ...serverMessageComponents,
@@ -60,9 +49,7 @@ const Messages = ({
                             selfAuthor={payload.new.userId === user?.id}
                         />
                     )
-                    setMessageComponents(
-                        [newMessage, ...messageComponents].slice(0, 50),
-                    )
+                    setMessageComponents([newMessage, ...messageComponents])
                 },
             )
             .subscribe()

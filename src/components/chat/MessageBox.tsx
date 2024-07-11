@@ -1,25 +1,14 @@
 'use client'
 
-import { createClient } from '@/utils/supabase/client'
 import usePostMessage from '@/utils/swr/postMessage'
-import { User } from '@supabase/supabase-js'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { TbSend } from 'react-icons/tb'
 import HoverText from '../HoverText'
-const supabase = createClient()
+import { useAuth } from '@/context/AuthContext'
 
 const MessageBox = () => {
-    const [user, setUser] = useState<User | null | undefined>(undefined)
-    useEffect(() => {
-        const { data: authListener } = supabase.auth.onAuthStateChange(
-            (event, session) => {
-                setUser(session?.user ?? null)
-            },
-        )
-        return () => {
-            authListener.subscription.unsubscribe()
-        }
-    }, [])
+    const { user } = useAuth()
+
     const notSignedInEffect =
         user === null
             ? 'filter grayscale hover:cursor-not-allowed'

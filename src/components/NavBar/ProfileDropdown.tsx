@@ -1,31 +1,16 @@
 'use client'
 
 import React from 'react'
-import { useState, useEffect } from 'react'
 import { logout } from '@/utils/supabase/authActions'
-import { User } from '@supabase/supabase-js'
-import { createClient } from '@/utils/supabase/client'
 import * as A from '@radix-ui/react-avatar'
 import * as DM from '@radix-ui/react-dropdown-menu'
 import Link from '../Link'
 import { useRouter } from 'next/navigation'
-
-const supabase = createClient()
+import { useAuth } from '@/context/AuthContext'
 
 const ProfileDropdown = () => {
-    const [user, setUser] = useState<User | null | undefined>(undefined)
+    const { user } = useAuth()
     const router = useRouter()
-
-    useEffect(() => {
-        const { data: authListener } = supabase.auth.onAuthStateChange(
-            (event, session) => {
-                setUser(session?.user ?? null)
-            },
-        )
-        return () => {
-            authListener.subscription.unsubscribe()
-        }
-    }, [])
 
     const logoutOnClick = async () => {
         await logout()
