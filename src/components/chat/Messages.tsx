@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react'
 import Message from './Message'
-import { User } from '@supabase/supabase-js'
 import ChatScroll from './ChatScroll'
 import { createClient } from '@/utils/supabase/client'
 import { useAuth } from '@/context/AuthContext'
@@ -21,9 +20,9 @@ const Messages = ({
 
     const { user } = useAuth()
 
-    const [messageComponents, setMessageComponents] = useState([
-        ...serverMessageComponents,
-    ])
+    const [messageComponents, setMessageComponents] = useState(
+        serverMessageComponents,
+    )
 
     const loadMore = async () => {
         // const newMessage = <Message text="new inserted message" />
@@ -43,7 +42,6 @@ const Messages = ({
             )) ?? []
 
         setMessageComponents([...messageComponents, ...newMessages])
-        // console.log('fetching more data', serverMessageComponents.length)
     }
 
     // https://www.youtube.com/watch?v=YR-xP6PPXXA
@@ -73,11 +71,11 @@ const Messages = ({
         return () => {
             supabase.removeChannel(channel)
         }
-    }, [supabase, user])
+    }, [supabase, user, messageComponents])
 
     return (
         <ChatScroll className="w-full h-full overflow-auto" loadMore={loadMore}>
-            {...messageComponents}
+            {messageComponents}
         </ChatScroll>
     )
 }
