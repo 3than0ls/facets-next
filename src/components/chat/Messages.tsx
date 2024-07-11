@@ -6,6 +6,7 @@ import { User } from '@supabase/supabase-js'
 import ChatScroll from './ChatScroll'
 import { createClient } from '@/utils/supabase/client'
 import { useAuth } from '@/context/AuthContext'
+import { Message as MessageModel } from '@prisma/client'
 
 type MessagesProps = {
     serverProps: {
@@ -24,10 +25,25 @@ const Messages = ({
         ...serverMessageComponents,
     ])
 
-    const loadMore = () => {
-        const newMessage = <Message text="new inserted message" />
-        setMessageComponents([...messageComponents, newMessage].slice(0, 50))
-        console.log('fetching more data', serverMessageComponents.length)
+    const loadMore = async () => {
+        // const newMessage = <Message text="new inserted message" />
+        const { data } = await supabase
+            .from('Message')
+            .select()
+            .order('sentAt', { ascending: false })
+            .range(messageComponents.length, messageComponents.length + 50)
+
+        const newMessages =
+            data?.map((row: MessageModel) => (
+                <Message
+                    text={row.text}
+                    key={row.id}
+                    selfAuthor={row.userId === user?.id}
+                />
+            )) ?? []
+
+        setMessageComponents([...messageComponents, ...newMessages])
+        // console.log('fetching more data', serverMessageComponents.length)
     }
 
     // https://www.youtube.com/watch?v=YR-xP6PPXXA
