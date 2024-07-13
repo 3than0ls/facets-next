@@ -3,6 +3,7 @@
 import React, { useRef, useState } from 'react'
 import Note from './Note'
 import GridBackground from './GridBackground'
+import LocationMap from './LocationMap'
 
 type StickyboardProps = {
     serverSideProps: {
@@ -17,10 +18,24 @@ type Point = {
 
 type Vector = Point
 
+const GRIDSIZE = 100_000
+
+/**
+ * The grid size is a constant 100,000 pixels (set here and set in tailwind.config.js)
+ *
+ * @param p Input point
+ * @returns New point bound within the limits
+ */
+const bindInLimits = (p: Point) => {
+    p.x = Math.max(-GRIDSIZE / 2, Math.min(p.x, GRIDSIZE / 2))
+    p.y = Math.max(-GRIDSIZE / 2, Math.min(p.y, GRIDSIZE / 2))
+    return p
+}
+
 const Stickyboard = ({
     serverSideProps: { serverNoteComponents },
 }: StickyboardProps) => {
-    const trackingRef = useRef(false)
+    const [tracking, setTracking] = useState(false)
     const originRef = useRef<Point>({ x: 0, y: 0 })
     const [offset, setOffset] = useState<Vector>({ x: 0, y: 0 })
 
@@ -32,7 +47,7 @@ const Stickyboard = ({
     */
 
     const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-        trackingRef.current = true
+        setTracking(true)
         originRef.current = {
             x: -offset.x + e.screenX,
             y: -offset.y + e.screenY,
@@ -42,19 +57,17 @@ const Stickyboard = ({
     }
 
     const onMouseUpOrLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-        trackingRef.current = false
+        setTracking(false)
     }
 
     const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (trackingRef.current) {
-            console.log(
-                offset.x + e.screenX - originRef.current.x,
-                offset.y + e.screenX - originRef.current.x,
+        if (tracking) {
+            setOffset(
+                bindInLimits({
+                    x: e.screenX - originRef.current.x,
+                    y: e.screenY - originRef.current.y,
+                }),
             )
-            setOffset({
-                x: e.screenX - originRef.current.x,
-                y: e.screenY - originRef.current.y,
-            })
             // console.log(offset)
         }
     }
