@@ -18,12 +18,12 @@ const ProfileDropdown = () => {
     }
 
     return user === null ? (
-        <Link href="/login" text="Login" colorTheme="white" />
+        <Link href="/login" text="Login" colorTheme="black" />
     ) : (
         <DM.Root>
             <DM.Trigger asChild>
                 <A.Root className="hover:cursor-pointer inline-flex w-9 h-9 select-none items-center justify-center overflow-hidden rounded-xl align-middle">
-                    <A.Fallback className="text-accent text-lg flex h-full w-full items-center justify-center bg-white font-bold">
+                    <A.Fallback className="text-primary bg-accent text-lg flex h-full w-full items-center justify-center font-bold">
                         {user?.user_metadata?.username[0].toUpperCase() ?? '?'}
                     </A.Fallback>
                 </A.Root>

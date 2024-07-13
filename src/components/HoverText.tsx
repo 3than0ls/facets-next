@@ -20,7 +20,7 @@ const HoverText = ({
     const [open, setOpen] = useState(false)
 
     const theme = inverseTheme
-        ? 'bg-white border-white border-2 text-accent fill-white'
+        ? 'bg-primary border-white border-2 text-accent fill-accent'
         : 'bg-accent border-accent border-2 text-white fill-accent'
 
     return (

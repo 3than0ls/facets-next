@@ -48,7 +48,7 @@ const MessageBox = () => {
                 <input
                     disabled={!user}
                     name="message"
-                    className={`${loginEffects} bg-primary w-full h-full rounded-l-xl p-2 outline-none hover:outline-none border-2 border-transparent transition-colors duration-200`}
+                    className={`${loginEffects} bg-primary w-full h-full rounded-l-xl p-2 outline-none hover:outline-none border-2 border-r-0 border-transparent transition-colors duration-200`}
                 />
                 <SendButton
                     className={`${loginEffects} bg-accent h-full min-w-10 flex items-center justify-center rounded-r-md`}

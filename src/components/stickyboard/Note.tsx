@@ -24,11 +24,11 @@ const Note = ({ title, text, color, author, position }: NoteProps) => {
 
     return (
         <div
-            className={`relative text-secondary p-2 ${bgColor} flex flex-col h-32 w-32`}
+            className={`relative text-black p-2 ${bgColor} flex flex-col h-32 w-32`}
             style={transform}
         >
             <h1>{title}</h1>
-            <p className="text-secondary">{text}</p>
+            <p>{text}</p>
         </div>
     )
 }

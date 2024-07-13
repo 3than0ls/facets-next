@@ -4,7 +4,7 @@ Facets is a project where web clients with similar UIs can all perfrom realtime 
 
 There are several different "facets" of the web application to perform the same, basic interactions with the database. Each "facet" utilizes different tools to do so, but should provide the same experience regardless.
 
-## Facet-Next
+## Facets-Next
 
 Facets-Next is built with NextJS (and React), Typescript, Supabase, Prisma, Radix-UI, TailwindCSS, all packaged with NPM.
 

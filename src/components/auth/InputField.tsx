@@ -11,7 +11,7 @@ const InputField = ({ label, onChange, error }: InputFieldProps) => {
 
     return (
         <div className="my-2">
-            <label htmlFor={label} className="text-md text-secondary mx-2">
+            <label htmlFor={label} className="text-md text-black mx-2">
                 {label}
             </label>
             <input

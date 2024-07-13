@@ -32,7 +32,7 @@ const Chat = async () => {
     }
 
     return (
-        <div className="min-h-0 h-full flex flex-col min-w-[400px] w-1/4 border-r-4 border-border bg-white">
+        <div className="min-h-0 h-full flex flex-col items-center justify-center min-w-[400px] w-1/4 border-r-4 border-border bg-white">
             <Messages
                 serverProps={{ serverMessageComponents: messageComponents }}
             />

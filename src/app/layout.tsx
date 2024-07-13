@@ -18,7 +18,7 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <AuthProvider serverProps={{ initUser: user }}>
-                <body className="h-screen bg-white flex flex-col">
+                <body className="h-screen flex flex-col">
                     <NavBar />
                     {children}
                 </body>

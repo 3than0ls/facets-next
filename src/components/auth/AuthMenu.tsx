@@ -6,7 +6,7 @@ import CreateAccountMenu from './CreateAccountMenu'
 const AuthMenu = async () => {
     return (
         <Tabs.Root
-            className="m-auto w-1/3 min-w-96 py-6 rounded-xl bg-white border-accent border-4 flex flex-col overflow-hidden"
+            className="m-auto w-1/3 min-w-96 py-6 rounded-xl border-accent bg-white border-4 flex flex-col overflow-hidden"
             defaultValue="login"
         >
             <Tabs.List className="flex flex-row justify-center text-lg mb-4">

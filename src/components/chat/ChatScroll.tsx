@@ -61,7 +61,7 @@ const ChatScroll = ({
     return (
         <div
             onScroll={hasMore ? handleScroll : undefined}
-            className={`${className} flex flex-col-reverse [&::-webkit-scrollbar]:bg-transparent [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-accent [&::-webkit-scrollbar-thumb]:rounded-full `}
+            className={`${className} flex flex-col-reverse [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-accent [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full`}
         >
             {children}
             {currentlyLoading ? (

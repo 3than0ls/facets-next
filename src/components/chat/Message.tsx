@@ -7,11 +7,13 @@ type MessageProps = {
 
 const Message = ({ text, selfAuthor = false }: MessageProps) => {
     const selfAuthorStyle = selfAuthor
-        ? 'ml-12 bg-primary text-secondary rounded-br'
-        : 'mr-12 bg-primary text-secondary rounded-bl'
+        ? 'rounded-br self-end ml-8'
+        : 'rounded-bl self-start mr-8'
 
     return (
-        <div className={`p-3 rounded-xl m-[10px]  ${selfAuthorStyle}`}>
+        <div
+            className={`flex-grow-0 bg-primary text-black p-3 rounded-xl m-[6px] w-fit ${selfAuthorStyle}`}
+        >
             {text}
         </div>
     )
