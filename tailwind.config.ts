@@ -8,6 +8,9 @@ const config: Config = {
     ],
     theme: {
         extend: {
+            size: {
+                stickyboardGrid: `10000px`,
+            },
             colors: {
                 primary: '#fff1e9',
                 secondary: '#121212',

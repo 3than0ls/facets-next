@@ -22,13 +22,22 @@ const Note = ({ title, text, color, author, position }: NoteProps) => {
         top: `${position[1]}px`,
     }
 
+    // to prevent the dragging translation from applying when trying to select text on note
+    const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation()
+    }
+
     return (
         <div
             className={`relative text-black p-2 ${bgColor} flex flex-col h-32 w-32`}
+            onMouseDown={stopPropagation}
+            onMouseUp={stopPropagation}
+            onMouseMove={stopPropagation}
+            onMouseLeave={stopPropagation}
             style={transform}
         >
-            <h1>{title}</h1>
-            <p>{text}</p>
+            <h1 draggable={false}>{title}</h1>
+            <p draggable={false}>{text}</p>
         </div>
     )
 }
