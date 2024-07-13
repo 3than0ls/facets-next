@@ -51,6 +51,7 @@ const LoginMenu = () => {
             await login({ username: state.username, password: state.password })
 
             // don't need to use router.push('/') because middleware will automatically redirect to home page, plus this refreshes page. Same applies for CreateAccount
+            router.push('/')
             router.refresh()
         } catch {
             dispatch({

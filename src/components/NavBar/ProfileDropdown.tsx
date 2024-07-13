@@ -5,16 +5,14 @@ import { logout } from '@/utils/supabase/authActions'
 import * as A from '@radix-ui/react-avatar'
 import * as DM from '@radix-ui/react-dropdown-menu'
 import Link from '../Link'
-import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 
 const ProfileDropdown = () => {
     const { user } = useAuth()
-    const router = useRouter()
 
     const logoutOnClick = async () => {
         await logout()
-        router.refresh()
+        location.reload()
     }
 
     return user === null ? (
