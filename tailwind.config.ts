@@ -9,7 +9,7 @@ const config: Config = {
     theme: {
         extend: {
             size: {
-                stickyboardGrid: `100000px`,
+                stickyboardGrid: `10000px`,
             },
             colors: {
                 primary: '#fff1e9',

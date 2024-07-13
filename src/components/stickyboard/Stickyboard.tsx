@@ -18,7 +18,7 @@ type Point = {
 
 type Vector = Point
 
-const GRIDSIZE = 100_000
+const GRIDSIZE = 10_000
 
 /**
  * The grid size is a constant 100,000 pixels (set here and set in tailwind.config.js)
@@ -27,8 +27,8 @@ const GRIDSIZE = 100_000
  * @returns New point bound within the limits
  */
 const bindInLimits = (p: Point) => {
-    p.x = Math.max(-GRIDSIZE / 2, Math.min(p.x, GRIDSIZE / 2))
-    p.y = Math.max(-GRIDSIZE / 2, Math.min(p.y, GRIDSIZE / 2))
+    p.x = Math.max(-GRIDSIZE / 2 + 250, Math.min(p.x, GRIDSIZE / 2 + 250))
+    p.y = Math.max(-GRIDSIZE / 2 + 250, Math.min(p.y, GRIDSIZE / 2 + 250))
     return p
 }
 
@@ -40,10 +40,8 @@ const Stickyboard = ({
     const [offset, setOffset] = useState<Vector>({ x: 0, y: 0 })
 
     /* TODO: 
-        - have some sort of absolutely-positioned position indicator 
         - custom cursor
         - indicator/tooltip to suggest right clicking to create a note. perhaps a Note itself, with a new priority column to indicate placing it on top?
-        - prevent client from translating too far in any direction (grid size)
     */
 
     const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -99,6 +97,11 @@ const Stickyboard = ({
                     position={[80, 80]}
                 />
             </div>
+            <LocationMap
+                gridSize={GRIDSIZE}
+                offset={offset}
+                tracking={tracking}
+            />
         </div>
     )
 }

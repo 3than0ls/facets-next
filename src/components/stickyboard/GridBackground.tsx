@@ -5,7 +5,7 @@ type GridBackgroundProps = {
 }
 
 /**
- * GRID BACKGROUND SIZE IS 100,000 PIXELS IN WIDTH AND 10,000,000 IN HEIGHT.
+ * GRID BACKGROUND SIZE IS 10,000 PIXELS IN WIDTH AND 10,000,000 IN HEIGHT.
  */
 const GridBackground = ({ squareSize = 50 }: GridBackgroundProps) => {
     const gridSize = squareSize
@@ -13,7 +13,6 @@ const GridBackground = ({ squareSize = 50 }: GridBackgroundProps) => {
         backgroundImage:
             'repeating-linear-gradient(#ccc 0 1px, transparent 1px 100%), repeating-linear-gradient(90deg, #ccc 0 1px, transparent 1px 100%)',
         backgroundSize: `${gridSize}px ${gridSize}px`,
-        // transform: `translate(${offset.x}, ${offset.y})`,
     }
 
     return (
