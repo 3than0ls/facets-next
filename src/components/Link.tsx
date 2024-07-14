@@ -5,10 +5,17 @@ type LinkProps = {
     href: string
     text: string
     onClick?: React.MouseEventHandler<HTMLAnchorElement>
+    newTab?: boolean
     colorTheme?: 'black' | 'white'
 }
 
-const Link = ({ href, text, onClick, colorTheme = 'black' }: LinkProps) => {
+const Link = ({
+    href,
+    text,
+    onClick,
+    newTab = false,
+    colorTheme = 'black',
+}: LinkProps) => {
     const color = {
         black: 'text-black from-black to-black',
         white: 'text-white from-white to-white',
@@ -19,6 +26,8 @@ const Link = ({ href, text, onClick, colorTheme = 'black' }: LinkProps) => {
             <NLink
                 onClick={onClick}
                 href={href}
+                rel={newTab ? 'noopener noreferrer' : ''}
+                target={newTab ? '_blank' : ''}
                 className="group w-full transition-all"
             >
                 <span
