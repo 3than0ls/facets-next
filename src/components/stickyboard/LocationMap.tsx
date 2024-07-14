@@ -15,10 +15,6 @@ type LocationMapProps = {
 const SHRINKFACTOR = 100
 
 const LocationMap = ({ gridSize, offset, tracking }: LocationMapProps) => {
-    useEffect(() => {
-        if (tracking) console.log(tracking)
-    }, [tracking])
-
     const outerDivStyle: React.CSSProperties = {
         width: gridSize / SHRINKFACTOR,
         height: gridSize / SHRINKFACTOR,

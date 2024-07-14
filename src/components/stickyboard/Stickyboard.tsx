@@ -58,7 +58,6 @@ const Stickyboard = ({
             x: -offset.x + e.screenX,
             y: -offset.y + e.screenY,
         }
-        // console.log(originRef.current)
         e.preventDefault()
     }
 
@@ -74,7 +73,6 @@ const Stickyboard = ({
                     y: e.screenY - originRef.current.y,
                 }),
             )
-            // console.log(offset)
         }
     }
 
@@ -98,10 +96,11 @@ const Stickyboard = ({
         >
             <div style={transformStyle} className="w-full h-full">
                 <GridBackground />
+                {serverNoteComponents}
                 <Note
                     title="hello"
                     text="My name is Ethan Chennault"
-                    color="cyan"
+                    color="CYAN"
                     position={[80, 80]}
                 />
             </div>
