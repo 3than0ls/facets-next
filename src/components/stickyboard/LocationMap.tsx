@@ -35,7 +35,7 @@ const LocationMap = ({ gridSize, offset, tracking }: LocationMapProps) => {
             className={`absolute bottom-8 right-8 outline outline-4 outline-accent ${tracking ? 'opacity-100 delay-0 duration-150' : 'opacity-0 delay-1000 duration-500'} ease-out transition-opacity bg-white`}
         >
             <div style={innerDivStyle} className="bg-black rounded-full"></div>
-            <span className="block absolute w-full text-right bottom-0 right-1 text-sm text-gray-500">
+            <span className="block absolute w-full text-right bottom-0 right-[2px] text-xs text-gray-500 font-sans">
                 {-offset.x} {-offset.y}
             </span>
         </div>

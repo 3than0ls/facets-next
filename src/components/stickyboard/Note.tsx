@@ -29,15 +29,15 @@ const Note = ({ title, text, color, author, position }: NoteProps) => {
 
     return (
         <div
-            className={`relative text-black p-2 ${bgColor} flex flex-col h-32 w-32`}
+            className={`relative text-black p-2 ${bgColor} flex flex-col min-h-32 min-w-32 max-w-48 shadow-lg `}
             onMouseDown={stopPropagation}
             onMouseUp={stopPropagation}
             onMouseMove={stopPropagation}
             onMouseLeave={stopPropagation}
             style={transform}
         >
-            <h1 draggable={false}>{title}</h1>
-            <p draggable={false}>{text}</p>
+            <h1 className="text-3xl">{title}</h1>
+            <p className="text-xl">{text}</p>
         </div>
     )
 }

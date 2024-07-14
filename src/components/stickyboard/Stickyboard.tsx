@@ -4,6 +4,13 @@ import React, { useRef, useState } from 'react'
 import Note from './Note'
 import GridBackground from './GridBackground'
 import LocationMap from './LocationMap'
+// eslint-disable-next-line camelcase
+import { Caveat_Brush } from 'next/font/google'
+
+const font = Caveat_Brush({
+    subsets: ['latin'],
+    weight: '400',
+})
 
 type StickyboardProps = {
     serverSideProps: {
@@ -42,6 +49,7 @@ const Stickyboard = ({
     /* TODO: 
         - custom cursor
         - indicator/tooltip to suggest right clicking to create a note. perhaps a Note itself, with a new priority column to indicate placing it on top?
+        - implement server components
     */
 
     const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -82,7 +90,7 @@ const Stickyboard = ({
     */
     return (
         <div
-            className="relative w-full h-full overflow-clip flex justify-center align-center"
+            className={`relative w-full h-full overflow-clip flex justify-center align-center ${font.className}`}
             onMouseDown={onMouseDown}
             onMouseUp={onMouseUpOrLeave}
             onMouseMove={onMouseMove}

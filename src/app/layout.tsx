@@ -1,9 +1,11 @@
-'use server'
-
 import NavBar from '@/components/navbar/NavBar'
 import AuthProvider from '@/context/AuthContext'
 import './globals.css'
 import { createClient } from '@/utils/supabase/server'
+// eslint-disable-next-line camelcase
+import { Plus_Jakarta_Sans } from 'next/font/google'
+
+const font = Plus_Jakarta_Sans({ subsets: ['latin'] })
 
 export default async function RootLayout({
     children,
@@ -18,7 +20,7 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <AuthProvider serverProps={{ initUser: user }}>
-                <body className="h-screen flex flex-col">
+                <body className={`${font.className} h-screen flex flex-col`}>
                     <NavBar />
                     {children}
                 </body>
