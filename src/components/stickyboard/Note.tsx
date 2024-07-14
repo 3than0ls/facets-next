@@ -32,7 +32,7 @@ const Note = ({ title, text, color, author, position }: NoteProps) => {
 
     return (
         <div
-            className={`relative text-black p-3 ${bgColor} flex flex-col min-h-32 min-w-32 max-w-48 shadow-lg `}
+            className={`absolute text-black p-3 ${bgColor} flex flex-col min-h-32 min-w-32 max-w-48 shadow-lg `}
             onMouseDown={stopPropagation}
             onMouseUp={stopPropagation}
             onMouseMove={stopPropagation}

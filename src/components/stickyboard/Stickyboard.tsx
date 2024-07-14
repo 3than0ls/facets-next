@@ -6,6 +6,7 @@ import GridBackground from './GridBackground'
 import LocationMap from './LocationMap'
 // eslint-disable-next-line camelcase
 import { Caveat_Brush } from 'next/font/google'
+import TooltipNotes from './TooltipNotes'
 
 const font = Caveat_Brush({
     subsets: ['latin'],
@@ -97,12 +98,7 @@ const Stickyboard = ({
             <div style={transformStyle} className="w-full h-full">
                 <GridBackground />
                 {serverNoteComponents}
-                <Note
-                    title="hello"
-                    text="My name is Ethan Chennault"
-                    color="CYAN"
-                    position={[80, 80]}
-                />
+                <TooltipNotes />
             </div>
             <LocationMap
                 gridSize={GRIDSIZE}
