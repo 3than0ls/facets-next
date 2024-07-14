@@ -21,8 +21,12 @@ model Note {
     id        Int      @id @default(autoincrement())
     createdAt DateTime @default(now())
     title     String   @db.VarChar(50)
-    userId    String?  @db.Uuid
-    User      User?    @relation(fields: [userId], references: [id])
+    text      String
+    positionX Int
+    positionY Int
+    color     Color    @default(YELLOW)
+    userId    String   @db.Uuid
+    User      User     @relation(fields: [userId], references: [id])
 }
 
 model User {
@@ -31,4 +35,12 @@ model User {
     email    String
     messages Message[]
     notes    Note[]
+}
+
+enum Color {
+    CYAN
+    ORANGE
+    YELLOW
+    GREEN
+    RED
 }
