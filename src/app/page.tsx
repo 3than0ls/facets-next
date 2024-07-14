@@ -19,6 +19,7 @@ export default async function Home() {
                     title={note.title}
                     text={note.text}
                     color={note.color}
+                    createdAt={note.createdAt}
                     position={[note.positionX, note.positionY]}
                     author={user?.username ?? 'Unknown'}
                 />

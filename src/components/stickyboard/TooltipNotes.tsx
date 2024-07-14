@@ -10,6 +10,7 @@ const TooltipNotes = () => {
                 title="(1) How to Use"
                 text="Drag around the grid to move around the stickyboard and view other people's notes."
                 position={[60, 60]}
+                linkToAuthor={false}
             />
             <Note
                 color="ORANGE"
@@ -17,6 +18,7 @@ const TooltipNotes = () => {
                 title="(2) How to Use"
                 text="Log in or create an account to post your own messages in the chat or add your own notes."
                 position={[260, 60]}
+                linkToAuthor={false}
             />
             <Note
                 color="YELLOW"
@@ -24,6 +26,7 @@ const TooltipNotes = () => {
                 title="(3) How to Use"
                 text="Right click on the grid to add your own note."
                 position={[460, 60]}
+                linkToAuthor={false}
             />
         </>
     )

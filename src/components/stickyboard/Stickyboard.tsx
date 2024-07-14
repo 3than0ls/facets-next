@@ -48,9 +48,9 @@ const Stickyboard = ({
     const [offset, setOffset] = useState<Vector>({ x: 0, y: 0 })
 
     /* TODO: 
-        - custom cursor
-        - indicator/tooltip to suggest right clicking to create a note. perhaps a Note itself, with a new priority column to indicate placing it on top?
-        - implement server components
+        - no longer right click ot create rather a draggable plus button that opens into a note creation menu when opened
+        - create button on top right, just a simple shadowed circle with a plus icon
+        - create a facets logo
     */
 
     const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
