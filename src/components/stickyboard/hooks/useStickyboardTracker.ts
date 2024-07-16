@@ -7,7 +7,7 @@ type Point = {
 
 type Vector = Point
 
-const GRIDSIZE = 10_000
+export const GRIDSIZE = 10_000
 
 /**
  * The grid size is a constant 100,000 pixels (set here and set in tailwind.config.js)
@@ -22,7 +22,8 @@ const bindInLimits = (p: Point) => {
 }
 
 /**
- * Seperates a lot of the logic of how the stickyboard works from Stickyboard.tsx
+ * Seperates a lot of the logic of how the stickyboard works from Stickyboard.tsx.
+ *
  * @returns {boolean} tracking - Whether or not tracking is active
  * @returns {Vector} offset - The vector, or position, from which the current tracked point is from the origin
  * @returns {function} startTracking - Callback function to start tracking, usually a mouse down event

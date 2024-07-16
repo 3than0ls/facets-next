@@ -1,15 +1,16 @@
 'use client'
 
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import Note from './Note'
 import GridBackground from './GridBackground'
 import LocationMap from './LocationMap'
 // eslint-disable-next-line camelcase
 import { Caveat_Brush } from 'next/font/google'
 import TooltipNotes from './TooltipNotes'
-import CreateNote from './CreateNote'
+import CreateNoteButton from './CreateNoteButton'
 import CreateNoteForm from './NoteForm/CreateNoteForm'
 import useStickyboardTracker from './hooks/useStickyboardTracker'
+import useCreateNoteState from './hooks/useCreateNoteState'
 
 const font = Caveat_Brush({
     subsets: ['latin'],
@@ -22,59 +23,19 @@ type StickyboardProps = {
     }
 }
 
-type Point = {
-    x: number
-    y: number
-}
-
-type Vector = Point
-
-const GRIDSIZE = 10_000
-
-/**
- * The grid size is a constant 100,000 pixels (set here and set in tailwind.config.js)
- *
- * @param p Input point
- * @returns New point bound within the limits
- */
-const bindInLimits = (p: Point) => {
-    p.x = Math.max(-GRIDSIZE / 2 + 250, Math.min(p.x, GRIDSIZE / 2 + 250))
-    p.y = Math.max(-GRIDSIZE / 2 + 250, Math.min(p.y, GRIDSIZE / 2 + 250))
-    return p
-}
-
 const Stickyboard = ({
     serverSideProps: { serverNoteComponents },
 }: StickyboardProps) => {
-    /* TODO: 
-        - no longer right click ot create rather a draggable plus button that opens into a note creation menu when opened
-        - create button on top right, just a simple shadowed circle with a plus icon
-        - create a facets logo
-    */
-
     const { tracking, offset, trackMotion, startTracking, stopTracking } =
         useStickyboardTracker()
 
-    // functionality having to do with creation
-    const boardRef = useRef<HTMLDivElement>(null)
-    const [creating, setCreating] = useState(false)
-    const [creatingPoint, setCreatingPoint] = useState<Point | null>(null)
-
-    const onCreateClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        setCreating(true)
-        e.stopPropagation()
-    }
-
-    const onCreatePlace = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (creating) {
-            setCreatingPoint({
-                x: e.clientX - offset.x - boardRef.current!.offsetLeft, // this bang operator solely relies on the fact that the ref is loaded before event handlers are
-                y: e.clientY - offset.y - boardRef.current!.offsetTop, // which is something I'm not 100% confident in. However, by the time a typical user clicks it, it wil be loaded
-            })
-        }
-        setCreating(false)
-        // setCreatingPoint(null)
-    }
+    const {
+        createButtonClick,
+        setCreatingPointIfPlacing,
+        stickyboardRef,
+        isPlacing,
+        creatingPoint,
+    } = useCreateNoteState(offset)
 
     const transformStyle: React.CSSProperties = {
         transform: `translate(${offset.x}px, ${offset.y}px)`,
@@ -88,25 +49,25 @@ const Stickyboard = ({
     */
     return (
         <div
-            ref={boardRef}
             className={`relative w-full h-full overflow-clip flex justify-center align-center ${font.className}`}
             onMouseDown={startTracking}
             onMouseUp={stopTracking}
             onMouseMove={trackMotion}
             onMouseLeave={stopTracking}
-            onClick={onCreatePlace}
+            ref={stickyboardRef}
+            onClick={setCreatingPointIfPlacing}
         >
             <div style={transformStyle} className="w-full h-full">
                 <span
                     className={
-                        creating
+                        isPlacing
                             ? 'cursor-crosshair'
                             : 'cursor-grab active:cursor-grabbing'
                     }
                 >
                     <GridBackground />
                 </span>
-                <span className={creating ? 'cursor-crosshair' : ''}>
+                <span className={isPlacing ? 'cursor-crosshair' : ''}>
                     {serverNoteComponents}
                     <TooltipNotes />
                     {creatingPoint ? (
@@ -114,12 +75,8 @@ const Stickyboard = ({
                     ) : null}
                 </span>
             </div>
-            <LocationMap
-                gridSize={GRIDSIZE}
-                offset={offset}
-                tracking={tracking}
-            />
-            <CreateNote onClick={onCreateClick} />
+            <LocationMap offset={offset} tracking={tracking} />
+            <CreateNoteButton onClick={createButtonClick} />
         </div>
     )
 }

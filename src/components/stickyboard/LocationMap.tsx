@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { GRIDSIZE } from './hooks/useStickyboardTracker'
 
 type Point = {
     x: number
@@ -6,7 +7,6 @@ type Point = {
 }
 
 type LocationMapProps = {
-    gridSize: number
     offset: Point
     tracking: boolean
 }
@@ -14,15 +14,15 @@ type LocationMapProps = {
 // in the location map, everything is shrunk down by a factor of 1000
 const SHRINKFACTOR = 100
 
-const LocationMap = ({ gridSize, offset, tracking }: LocationMapProps) => {
+const LocationMap = ({ offset, tracking }: LocationMapProps) => {
     const outerDivStyle: React.CSSProperties = {
-        width: gridSize / SHRINKFACTOR,
-        height: gridSize / SHRINKFACTOR,
+        width: GRIDSIZE / SHRINKFACTOR,
+        height: GRIDSIZE / SHRINKFACTOR,
     }
     const innerDivStyle: React.CSSProperties = {
         width: 5,
         height: 5,
-        transform: `translate(${(-offset.x + gridSize / 2) / SHRINKFACTOR - 2.5}px, ${(-offset.y + gridSize / 2) / SHRINKFACTOR - 2.5}px)`,
+        transform: `translate(${(-offset.x + GRIDSIZE / 2) / SHRINKFACTOR - 2.5}px, ${(-offset.y + GRIDSIZE / 2) / SHRINKFACTOR - 2.5}px)`,
     }
 
     return (

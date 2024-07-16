@@ -17,6 +17,11 @@ const CreateNoteForm = ({ initialPosition }: CreateNoteFormProps) => {
         GREEN: 'bg-green-300',
         RED: 'bg-red-300',
     }['RED']
+    /*
+        TODO: manage all information with a form, no need for reducer, no need for live updates. server function when creating note is all we need
+        add a visual indicator (pulsing borders?) that the note is not yet created
+        create buttons on bottom to either delete or post note
+    */
 
     const clientPosition: React.CSSProperties = {
         left: `${initialPosition.x}px`,
@@ -35,7 +40,7 @@ const CreateNoteForm = ({ initialPosition }: CreateNoteFormProps) => {
         >
             <h1 className="text-3xl">title</h1>
             <p className="text-xl">text</p>
-            submit
+            author submit
         </div>
     )
 }
