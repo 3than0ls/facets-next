@@ -7,6 +7,8 @@ import LocationMap from './LocationMap'
 // eslint-disable-next-line camelcase
 import { Caveat_Brush } from 'next/font/google'
 import TooltipNotes from './TooltipNotes'
+import CreateNote from './CreateNote'
+import CreateNoteForm from './NoteForm/CreateNoteForm'
 
 const font = Caveat_Brush({
     subsets: ['latin'],
@@ -77,6 +79,27 @@ const Stickyboard = ({
         }
     }
 
+    // functionality having to do with creation
+    const boardRef = useRef<HTMLDivElement>(null)
+    const [creating, setCreating] = useState(false)
+    const [creatingPoint, setCreatingPoint] = useState<Point | null>(null)
+
+    const onCreateClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        setCreating(true)
+        e.stopPropagation()
+    }
+
+    const onCreatePlace = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (creating) {
+            setCreatingPoint({
+                x: e.clientX - boardRef.current!.offsetLeft, // this bang operator solely relies on the fact that the ref is loaded before event handlers are
+                y: e.clientY - boardRef.current!.offsetTop, // which is something I'm not 100% confident in. However, by the time a typical user clicks it, it wil be loaded
+            })
+        }
+        setCreating(false)
+        // setCreatingPoint(null)
+    }
+
     const transformStyle: React.CSSProperties = {
         transform: `translate(${offset.x}px, ${offset.y}px)`,
     }
@@ -89,22 +112,38 @@ const Stickyboard = ({
     */
     return (
         <div
+            ref={boardRef}
             className={`relative w-full h-full overflow-clip flex justify-center align-center ${font.className}`}
             onMouseDown={onMouseDown}
             onMouseUp={onMouseUpOrLeave}
             onMouseMove={onMouseMove}
             onMouseLeave={onMouseUpOrLeave}
+            onClick={onCreatePlace}
         >
             <div style={transformStyle} className="w-full h-full">
-                <GridBackground />
-                {serverNoteComponents}
-                <TooltipNotes />
+                <span
+                    className={
+                        creating
+                            ? 'cursor-crosshair'
+                            : 'cursor-grab active:cursor-grabbing'
+                    }
+                >
+                    <GridBackground />
+                </span>
+                <span className={creating ? 'cursor-crosshair' : ''}>
+                    {serverNoteComponents}
+                    <TooltipNotes />
+                    {creatingPoint ? (
+                        <CreateNoteForm initialPosition={creatingPoint} />
+                    ) : null}
+                </span>
             </div>
             <LocationMap
                 gridSize={GRIDSIZE}
                 offset={offset}
                 tracking={tracking}
             />
+            <CreateNote onClick={onCreateClick} />
         </div>
     )
 }

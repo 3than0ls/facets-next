@@ -30,7 +30,7 @@ const Note = ({
         RED: 'bg-red-300',
     }[color]
 
-    const transform: React.CSSProperties = {
+    const clientPosition: React.CSSProperties = {
         left: `${position[0]}px`,
         top: `${position[1]}px`,
     }
@@ -45,12 +45,9 @@ const Note = ({
 
     return (
         <div
-            className={`absolute text-black p-3 ${bgColor} flex flex-col min-h-32 min-w-32 max-w-48 shadow-lg `}
+            className={`absolute text-black p-3 ${bgColor} flex flex-col min-h-32 w-48 shadow-lg `}
             onMouseDown={stopPropagation}
-            onMouseUp={stopPropagation}
-            onMouseMove={stopPropagation}
-            onMouseLeave={stopPropagation}
-            style={transform}
+            style={clientPosition}
         >
             <h1 className="text-3xl">{title}</h1>
             <p className="text-xl">{text}</p>

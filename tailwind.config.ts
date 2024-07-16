@@ -11,6 +11,9 @@ const config: Config = {
             size: {
                 stickyboardGrid: `10000px`,
             },
+            transitionProperty: {
+                width: 'width',
+            },
             colors: {
                 primary: '#fff1e9',
                 secondary: '#121212',

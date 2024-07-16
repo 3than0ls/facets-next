@@ -17,7 +17,7 @@ const GridBackground = ({ squareSize = 50 }: GridBackgroundProps) => {
 
     return (
         <div
-            className="absolute border-4 border-black size-stickyboardGrid -translate-x-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing"
+            className="absolute border-4 border-black size-stickyboardGrid -translate-x-1/2 -translate-y-1/2"
             style={gridStyle}
         ></div>
     )
