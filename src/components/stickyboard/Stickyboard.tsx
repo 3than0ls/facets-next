@@ -7,8 +7,8 @@ import LocationMap from './LocationMap'
 // eslint-disable-next-line camelcase
 import { Caveat_Brush } from 'next/font/google'
 import TooltipNotes from './TooltipNotes'
-import CreateNoteButton from './CreateNoteButton'
-import CreateNoteForm from './NoteForm/CreateNoteForm'
+import CreateNoteButton from './note_creation/CreateNoteButton'
+import CreateNoteForm from './note_creation/CreateNoteForm'
 import useStickyboardTracker from './hooks/useStickyboardTracker'
 import useCreateNoteState from './hooks/useCreateNoteState'
 
