@@ -9,6 +9,7 @@ import { Caveat_Brush } from 'next/font/google'
 import TooltipNotes from './TooltipNotes'
 import CreateNote from './CreateNote'
 import CreateNoteForm from './NoteForm/CreateNoteForm'
+import useStickyboardTracker from './hooks/useStickyboardTracker'
 
 const font = Caveat_Brush({
     subsets: ['latin'],
@@ -45,39 +46,14 @@ const bindInLimits = (p: Point) => {
 const Stickyboard = ({
     serverSideProps: { serverNoteComponents },
 }: StickyboardProps) => {
-    const [tracking, setTracking] = useState(false)
-    const originRef = useRef<Point>({ x: 0, y: 0 })
-    const [offset, setOffset] = useState<Vector>({ x: 0, y: 0 })
-
     /* TODO: 
         - no longer right click ot create rather a draggable plus button that opens into a note creation menu when opened
         - create button on top right, just a simple shadowed circle with a plus icon
         - create a facets logo
     */
 
-    const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-        setTracking(true)
-        originRef.current = {
-            x: -offset.x + e.screenX,
-            y: -offset.y + e.screenY,
-        }
-        e.preventDefault()
-    }
-
-    const onMouseUpOrLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-        setTracking(false)
-    }
-
-    const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (tracking) {
-            setOffset(
-                bindInLimits({
-                    x: e.screenX - originRef.current.x,
-                    y: e.screenY - originRef.current.y,
-                }),
-            )
-        }
-    }
+    const { tracking, offset, trackMotion, startTracking, stopTracking } =
+        useStickyboardTracker()
 
     // functionality having to do with creation
     const boardRef = useRef<HTMLDivElement>(null)
@@ -92,8 +68,8 @@ const Stickyboard = ({
     const onCreatePlace = (e: React.MouseEvent<HTMLDivElement>) => {
         if (creating) {
             setCreatingPoint({
-                x: e.clientX - boardRef.current!.offsetLeft, // this bang operator solely relies on the fact that the ref is loaded before event handlers are
-                y: e.clientY - boardRef.current!.offsetTop, // which is something I'm not 100% confident in. However, by the time a typical user clicks it, it wil be loaded
+                x: e.clientX - offset.x - boardRef.current!.offsetLeft, // this bang operator solely relies on the fact that the ref is loaded before event handlers are
+                y: e.clientY - offset.y - boardRef.current!.offsetTop, // which is something I'm not 100% confident in. However, by the time a typical user clicks it, it wil be loaded
             })
         }
         setCreating(false)
@@ -114,10 +90,10 @@ const Stickyboard = ({
         <div
             ref={boardRef}
             className={`relative w-full h-full overflow-clip flex justify-center align-center ${font.className}`}
-            onMouseDown={onMouseDown}
-            onMouseUp={onMouseUpOrLeave}
-            onMouseMove={onMouseMove}
-            onMouseLeave={onMouseUpOrLeave}
+            onMouseDown={startTracking}
+            onMouseUp={stopTracking}
+            onMouseMove={trackMotion}
+            onMouseLeave={stopTracking}
             onClick={onCreatePlace}
         >
             <div style={transformStyle} className="w-full h-full">
