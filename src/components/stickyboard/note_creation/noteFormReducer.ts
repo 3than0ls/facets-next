@@ -44,6 +44,8 @@ const reducer = (
     }
 }
 
-export const useNoteReducer = () => {
-    return useReducer(reducer, initState)
+export const useNoteReducer = (
+    overrideInitState: Partial<typeof initState> = {},
+) => {
+    return useReducer(reducer, { ...initState, ...overrideInitState })
 }

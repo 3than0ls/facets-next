@@ -3,6 +3,8 @@ import { ACTIONS, useNoteReducer } from './noteFormReducer'
 import { PJSFontClassName } from '@/fonts'
 import { TbTrash } from 'react-icons/tb'
 import { TbSquarePlus2 } from 'react-icons/tb'
+import { Color } from '@prisma/client'
+import postNote from '@/actions/postNote'
 
 type Point = {
     x: number
@@ -14,17 +16,25 @@ type CreateNoteFormProps = {
     resetCreationState: () => void
 }
 
+const bgColors = {
+    CYAN: 'bg-cyan-300',
+    ORANGE: 'bg-orange-300',
+    YELLOW: 'bg-yellow-300',
+    GREEN: 'bg-green-300',
+    RED: 'bg-red-300',
+}
+
 const CreateNoteForm = ({
     initialPosition,
     resetCreationState,
 }: CreateNoteFormProps) => {
-    const bgColor = {
-        CYAN: 'bg-cyan-300',
-        ORANGE: 'bg-orange-300',
-        YELLOW: 'bg-yellow-300',
-        GREEN: 'bg-green-300',
-        RED: 'bg-red-300',
-    }['RED']
+    const bgColor = useRef(
+        Object.keys(bgColors)[
+            Math.floor(Math.random() * Object.keys(bgColors).length)
+        ] as keyof typeof bgColors,
+    )
+
+    const bgColorClassName = bgColors[bgColor.current]
 
     // autofocus the contenteditable div (probably the title) on load
     const autoFocusRef = useRef<HTMLDivElement>(null)
@@ -32,20 +42,29 @@ const CreateNoteForm = ({
         autoFocusRef.current?.focus()
     }, [autoFocusRef])
 
-    const [state, dispatch] = useNoteReducer()
-
+    const defaultTitle = 'Your wonderful thoughts'
+    const defaultText = 'My message...'
+    const [state, dispatch] = useNoteReducer({
+        title: defaultTitle,
+        text: defaultText,
+    })
     const onTitleChange = (e: React.FormEvent<HTMLDivElement>) => {
         dispatch({
             type: ACTIONS.UPDATE_TITLE,
             payload: e.currentTarget.textContent ?? 'not typed',
         })
     }
-
     const onTextChange = (e: React.FormEvent<HTMLDivElement>) => {
         dispatch({
             type: ACTIONS.UPDATE_TEXT,
             payload: e.currentTarget.textContent ?? 'not typed',
         })
+    }
+
+    const onPost = (formData: FormData) => {
+        postNote(formData)
+        // I could just say that
+        resetCreationState()
     }
     /*
         TODO: manage all information with a form, no need for reducer, no need for live updates. server function when creating note is all we need
@@ -73,9 +92,10 @@ const CreateNoteForm = ({
     }
     return (
         <form
+            action={onPost}
             style={clientPosition}
             onMouseDown={stopPropagation}
-            className={`absolute text-black p-3 ${bgColor} flex flex-col min-h-32 w-48 shadow-lg `}
+            className={`absolute text-black p-3 ${bgColorClassName} flex flex-col min-h-32 w-48 shadow-lg `}
         >
             <div
                 ref={autoFocusRef}
@@ -84,7 +104,7 @@ const CreateNoteForm = ({
                 onInput={onTitleChange}
                 className={`text-3xl outline-none text-black bg-left-bottom bg-gradient-to-r ${state.titleError ? 'from-red-600 to-red-600' : 'from-black to-black'}  bg-[length:0%_2px] bg-no-repeat hover:bg-[length:100%_2px] focus:bg-[length:100%_2px] transition-all duration-200 ease-in-out`}
             >
-                Your wonderful thoughts
+                {defaultTitle}
             </div>
             {state.titleError ? (
                 <span className={`${PJSFontClassName} text-red-600`}>
@@ -97,7 +117,7 @@ const CreateNoteForm = ({
                 onInput={onTextChange}
                 className={`text-xl outline-none text-black bg-left-bottom bg-gradient-to-r ${state.textError ? 'from-red-600 to-red-600' : 'from-black to-black'} bg-[length:0%_2px] bg-no-repeat hover:bg-[length:100%_2px] focus:bg-[length:100%_2px] transition-all duration-200 ease-in-out`}
             >
-                My message...
+                {defaultText}
             </div>
             {state.textError ? (
                 <span className={`${PJSFontClassName} text-red-600`}>
@@ -112,18 +132,53 @@ const CreateNoteForm = ({
                     color="black"
                     onClick={resetCreationState}
                 />
-                <TbSquarePlus2
-                    title="Post Note"
-                    size={22}
+                <button
+                    type="submit"
                     className={`${
                         !state.titleError && !state.textError
                             ? 'hover:cursor-pointer '
                             : 'hover:cursor-not-allowed'
                     } ml-auto`}
-                    color="black"
-                    onClick={resetCreationState}
-                />
+                >
+                    <TbSquarePlus2 title="Post Note" size={22} color="black" />
+                </button>
             </div>
+            {/* hidden inputs that will be included as form data for the form submission */}
+            <input
+                name="title"
+                type="text"
+                className="hidden"
+                readOnly
+                value={state.title}
+            />
+            <input
+                name="text"
+                type="text"
+                className="hidden"
+                readOnly
+                value={state.text}
+            />
+            <input
+                name="color"
+                type="text"
+                className="hidden"
+                readOnly
+                value={bgColor.current}
+            />
+            <input
+                name="positionX"
+                type="text"
+                className="hidden"
+                readOnly
+                value={initialPosition.x}
+            />
+            <input
+                name="positionY"
+                type="text"
+                className="hidden"
+                readOnly
+                value={initialPosition.y}
+            />
         </form>
     )
 }

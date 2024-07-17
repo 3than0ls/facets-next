@@ -31,6 +31,6 @@ export default async function postMessage(formData: FormData) {
 
         return res
     } catch (err) {
-        return { error: err }
+        return { error: (err as Error).message }
     }
 }

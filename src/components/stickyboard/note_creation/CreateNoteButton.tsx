@@ -1,3 +1,4 @@
+import { useAuth } from '@/context/AuthContext'
 import { PJSFontClassName } from '@/fonts'
 import React from 'react'
 import { TbSquarePlus2 } from 'react-icons/tb'
@@ -7,6 +8,8 @@ type CreateNoteButtonProps = {
 }
 
 const CreateNoteButton = ({ onClick }: CreateNoteButtonProps) => {
+    const { user } = useAuth()
+
     // to prevent the dragging translation from applying
     const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation()
@@ -15,12 +18,16 @@ const CreateNoteButton = ({ onClick }: CreateNoteButtonProps) => {
         <div
             onClick={onClick}
             onMouseDown={stopPropagation}
-            className={`${PJSFontClassName} p-5 absolute overflow-hidden top-6 right-6 w-16 h-16 hover:cursor-pointer hover:w-48 rounded-full group shadow-lg bg-primary flex flex-row-reverse items-center gap-6 transition-all duration-300`}
+            className={`${PJSFontClassName} p-5 absolute overflow-hidden top-6 right-6 w-16 h-16 ${user ? 'hover:cursor-pointer hover:w-48' : 'hover:cursor-not-allowed grayscale hover:w-64'} rounded-full group shadow-lg bg-primary flex flex-row-reverse gap-6 items-center transition-all duration-300`}
         >
             <div className="">
                 <TbSquarePlus2 size={24} color="black" />
             </div>
-            <div className="text-nowrap text-lg">Create Note</div>
+            <div
+                className={`text-nowrap mr-auto ${user ? 'text-lg' : 'text-sm'}`}
+            >
+                {user ? 'Create Note' : 'Log in to Create Note'}
+            </div>
         </div>
     )
 }
