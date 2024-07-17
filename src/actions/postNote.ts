@@ -4,15 +4,22 @@ import prisma from '@/utils/prisma/client'
 import { createClient } from '@/utils/supabase/server'
 import { Color } from '@prisma/client'
 
-export default async function postNote(formData: FormData) {
+type NewNoteData = {
+    title: string
+    text: string
+    position: { x: number; y: number }
+    color: Color
+}
+
+export default async function postNote(noteData: NewNoteData) {
     try {
-        if (formData.get('title') === '' || formData.get('text') === '') {
+        if (noteData.title === '' || noteData.text === '') {
             throw new Error('Empty data attribute error.')
         }
 
         // should probably do some more validation, but too lazy, not now... use zod for future
         // https://zod.dev/
-        // if (!(formData.get('color')!.toString() in Color))
+        // if (!(noteData.color!.toString() in Color))
 
         // ensure logged in
         const supabase = await createClient()
@@ -22,11 +29,11 @@ export default async function postNote(formData: FormData) {
         }
 
         const note = {
-            title: formData.get('title') as string,
-            text: formData.get('text') as string,
-            positionX: parseInt(formData.get('positionX') as string),
-            positionY: parseInt(formData.get('positionY') as string),
-            color: formData.get('color') as Color,
+            title: noteData.title,
+            text: noteData.text,
+            positionX: noteData.position.x,
+            positionY: noteData.position.y,
+            color: noteData.color,
             userId: data.user.id,
         }
 

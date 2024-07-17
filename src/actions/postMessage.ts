@@ -5,7 +5,7 @@ import { createClient } from '@/utils/supabase/server'
 
 export default async function postMessage(formData: FormData) {
     try {
-        const text = formData.get('message')?.toString()
+        const text = formData.get('message') as string
 
         // essentially the same condition, but explicitly state that if text is undefined/null or if text is an empty string, return error
         if (!text || text === '') {

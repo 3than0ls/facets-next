@@ -62,7 +62,12 @@ const CreateNoteForm = ({
     }
 
     const onPost = (formData: FormData) => {
-        postNote(formData)
+        postNote({
+            title: state.title,
+            text: state.text,
+            color: bgColor.current,
+            position: initialPosition,
+        })
         // I could just say that
         resetCreationState()
     }
