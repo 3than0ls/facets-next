@@ -8,7 +8,7 @@ import TooltipNotes from './TooltipNotes'
 import CreateNoteButton from './note_creation/CreateNoteButton'
 import CreateNoteForm from './note_creation/CreateNoteForm'
 import useStickyboardTracker from './hooks/useStickyboardTracker'
-import useCreateNoteState from './hooks/useCreateNoteState'
+import useCreateNoteState, { CREATION_STATE } from './hooks/useCreateNoteState'
 import { CBFontClassName } from '@/fonts'
 
 type StickyboardProps = {
@@ -27,9 +27,14 @@ const Stickyboard = ({
         createButtonClick,
         setCreatingPointIfPlacing,
         stickyboardRef,
-        isPlacing,
+        creationState,
+        setCreationState,
         creatingPoint,
     } = useCreateNoteState(offset)
+
+    const resetCreationState = () => {
+        setCreationState(CREATION_STATE.NONE)
+    }
 
     const transformStyle: React.CSSProperties = {
         transform: `translate(${offset.x}px, ${offset.y}px)`,
@@ -54,18 +59,28 @@ const Stickyboard = ({
             <div style={transformStyle} className="w-full h-full">
                 <span
                     className={
-                        isPlacing
+                        creationState === CREATION_STATE.PLACING
                             ? 'cursor-crosshair'
                             : 'cursor-grab active:cursor-grabbing'
                     }
                 >
                     <GridBackground />
                 </span>
-                <span className={isPlacing ? 'cursor-crosshair' : ''}>
+                <span
+                    className={
+                        creationState === CREATION_STATE.PLACING
+                            ? 'cursor-crosshair'
+                            : ''
+                    }
+                >
                     {serverNoteComponents}
                     <TooltipNotes />
-                    {creatingPoint ? (
-                        <CreateNoteForm initialPosition={creatingPoint} />
+                    {creationState === CREATION_STATE.CREATING &&
+                    creatingPoint ? (
+                        <CreateNoteForm
+                            initialPosition={creatingPoint}
+                            resetCreationState={resetCreationState}
+                        />
                     ) : null}
                 </span>
             </div>

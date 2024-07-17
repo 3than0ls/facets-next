@@ -5,6 +5,12 @@ type Point = {
     y: number
 }
 
+export const enum CREATION_STATE {
+    NONE,
+    PLACING,
+    CREATING,
+}
+
 type Vector = Point
 
 /**
@@ -20,28 +26,30 @@ type Vector = Point
  */
 export default function useCreateNoteState(offset: Vector) {
     const stickyboardRef = useRef<HTMLDivElement>(null)
-    const [isPlacing, setPlacing] = useState(false)
+    const [creationState, setCreationState] = useState<CREATION_STATE>(
+        CREATION_STATE.NONE,
+    )
     const [creatingPoint, setCreatingPoint] = useState<Point | null>(null)
 
     const createButtonClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        setPlacing(true)
+        setCreationState(CREATION_STATE.PLACING)
         e.stopPropagation()
     }
 
     const setCreatingPointIfPlacing = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (isPlacing) {
+        if (creationState === CREATION_STATE.PLACING) {
             setCreatingPoint({
                 x: e.clientX - offset.x - stickyboardRef.current!.offsetLeft, // this bang operator solely relies on the fact that the ref is loaded before event handlers are
                 y: e.clientY - offset.y - stickyboardRef.current!.offsetTop, // which is something I'm not 100% confident in. However, by the time a typical user clicks it, it wil be loaded
             })
+            setCreationState(CREATION_STATE.CREATING)
         }
-        setPlacing(false)
-        // setCreatingPoint(null)
     }
 
     return {
         stickyboardRef,
-        isPlacing,
+        creationState,
+        setCreationState,
         creatingPoint,
         setCreatingPointIfPlacing,
         createButtonClick,
