@@ -4,18 +4,12 @@ import React from 'react'
 import Note from './Note'
 import GridBackground from './GridBackground'
 import LocationMap from './LocationMap'
-// eslint-disable-next-line camelcase
-import { Caveat_Brush } from 'next/font/google'
 import TooltipNotes from './TooltipNotes'
 import CreateNoteButton from './note_creation/CreateNoteButton'
 import CreateNoteForm from './note_creation/CreateNoteForm'
 import useStickyboardTracker from './hooks/useStickyboardTracker'
 import useCreateNoteState from './hooks/useCreateNoteState'
-
-const font = Caveat_Brush({
-    subsets: ['latin'],
-    weight: '400',
-})
+import { CBFontClassName } from '@/fonts'
 
 type StickyboardProps = {
     serverSideProps: {
@@ -49,7 +43,7 @@ const Stickyboard = ({
     */
     return (
         <div
-            className={`relative w-full h-full overflow-clip flex justify-center align-center ${font.className}`}
+            className={`relative w-full h-full overflow-clip flex justify-center align-center ${CBFontClassName}`}
             onMouseDown={startTracking}
             onMouseUp={stopTracking}
             onMouseMove={trackMotion}
