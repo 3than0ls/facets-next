@@ -8,7 +8,7 @@ const TooltipNotes = () => {
                 color="CYAN"
                 author="Ethan Chennault"
                 title="(1) How to Use"
-                text="Drag around the grid to move around the stickyboard and view other people's notes."
+                text="Drag to move around the stickyboard and view other people's notes."
                 position={[60, 60]}
                 linkToAuthor={false}
             />
@@ -16,7 +16,7 @@ const TooltipNotes = () => {
                 color="ORANGE"
                 author="Ethan Chennault"
                 title="(2) How to Use"
-                text="Log in or create an account to post your own messages in the chat or add your own notes."
+                text="Log in or create an account to send your own messages in the chat or post your own notes."
                 position={[260, 60]}
                 linkToAuthor={false}
             />
@@ -24,7 +24,7 @@ const TooltipNotes = () => {
                 color="YELLOW"
                 author="Ethan Chennault"
                 title="(3) How to Use"
-                text="Right click on the grid to add your own note."
+                text="Once logged in, click the button on the top right to create your own notes!"
                 position={[460, 60]}
                 linkToAuthor={false}
             />
