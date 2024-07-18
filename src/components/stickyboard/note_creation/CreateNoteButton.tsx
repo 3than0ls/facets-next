@@ -16,7 +16,7 @@ const CreateNoteButton = ({ onClick }: CreateNoteButtonProps) => {
     }
     return (
         <div
-            onClick={onClick}
+            onClick={user ? onClick : () => {}}
             onMouseDown={stopPropagation}
             className={`${PJSFontClassName} p-5 absolute overflow-hidden top-6 right-6 w-16 h-16 ${user ? 'hover:cursor-pointer hover:w-48' : 'hover:cursor-not-allowed grayscale hover:w-64'} rounded-full group shadow-lg bg-primary flex flex-row-reverse gap-6 items-center transition-all duration-300`}
         >
