@@ -25,19 +25,20 @@ const Messages = ({
     )
 
     const loadMore = async () => {
-        // const newMessage = <Message text="new inserted message" />
         const { data } = await supabase
             .from('Message')
-            .select()
+            .select('*, User (username)')
             .order('sentAt', { ascending: false })
             .range(messageComponents.length, messageComponents.length + 50)
 
         const newMessages =
-            data?.map((row: MessageModel) => (
+            data?.map((messageData) => (
                 <Message
-                    text={row.text}
-                    key={row.id}
-                    selfAuthor={row.userId === user?.id}
+                    key={messageData.id}
+                    text={messageData.text}
+                    sentAt={new Date(messageData.sentAt)}
+                    author={messageData.User.username}
+                    selfAuthor={messageData.userId === user?.id}
                 />
             )) ?? []
 
@@ -55,11 +56,19 @@ const Messages = ({
                     schema: 'public',
                     table: 'Message',
                 },
-                (payload) => {
+                async (payload) => {
+                    const { data } = await supabase
+                        .from('User')
+                        .select('username, id')
+                        .eq('id', payload.new.userId)
+                        .maybeSingle()
+
                     const newMessage = (
                         <Message
                             key={payload.new.id}
                             text={payload.new.text}
+                            sentAt={new Date(payload.new.sentAt)}
+                            author={data?.username ?? 'Unknown'}
                             selfAuthor={payload.new.userId === user?.id}
                         />
                     )

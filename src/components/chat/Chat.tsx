@@ -16,6 +16,9 @@ const Chat = async () => {
         orderBy: {
             sentAt: 'desc', // ordered by descending, that way newest messages are first
         },
+        include: {
+            User: true,
+        },
     })
 
     const messageComponents = []
@@ -23,6 +26,8 @@ const Chat = async () => {
         messageComponents.push(
             <Message
                 key={messageData.id}
+                sentAt={messageData.sentAt}
+                author={messageData.User?.username ?? 'Unknown'}
                 selfAuthor={
                     data.user ? data.user.id === messageData.userId : false
                 }
