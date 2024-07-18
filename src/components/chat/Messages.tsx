@@ -47,7 +47,7 @@ const Messages = ({
     // https://www.youtube.com/watch?v=YR-xP6PPXXA
     useEffect(() => {
         const channel = supabase
-            .channel('supabase_realtime')
+            .channel('messages')
             .on(
                 'postgres_changes',
                 {

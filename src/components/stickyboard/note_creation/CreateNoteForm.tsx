@@ -78,8 +78,8 @@ const CreateNoteForm = ({
 
 
         TIMELINE: 
-        7/16 - Tuesday - Finish entirety of CreateNoteForm, including server action
-        7/17 - Wednesday - Add realtime event channel to automatically update when notes are added
+        7/16 - Tuesday - Finish entirety of CreateNoteForm, including server action    [DONE]
+        7/17 - Wednesday - Add realtime event channel to automatically update when notes are added    [DONE]
         7/18 - Thursday - Create /user/[id] page entirety
         7/19 - Friday - Create landing page
         7/20 - Saturday - Update README, package.json, etc., and create a "things I've learned" document

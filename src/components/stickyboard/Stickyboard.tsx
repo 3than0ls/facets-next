@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Note from './Note'
 import GridBackground from './GridBackground'
 import LocationMap from './LocationMap'
@@ -10,6 +10,7 @@ import CreateNoteForm from './note_creation/CreateNoteForm'
 import useStickyboardTracker from './hooks/useStickyboardTracker'
 import useCreateNoteState, { CREATION_STATE } from './hooks/useCreateNoteState'
 import { CBFontClassName } from '@/fonts'
+import { createClient } from '@/utils/supabase/client'
 
 type StickyboardProps = {
     serverSideProps: {
@@ -20,6 +21,51 @@ type StickyboardProps = {
 const Stickyboard = ({
     serverSideProps: { serverNoteComponents },
 }: StickyboardProps) => {
+    const [noteComponents, setNoteComponents] = useState([
+        ...serverNoteComponents,
+    ])
+
+    const supabase = createClient()
+    useEffect(() => {
+        const channel = supabase
+            .channel('notes')
+            .on(
+                'postgres_changes',
+                {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'Note',
+                },
+                async (payload) => {
+                    const { data } = await supabase
+                        .from('User')
+                        .select('username, id')
+                        .eq('id', payload.new.userId)
+                        .maybeSingle()
+                    setNoteComponents([
+                        ...noteComponents,
+                        <Note
+                            key={payload.new.id}
+                            title={payload.new.title}
+                            text={payload.new.text}
+                            color={payload.new.color}
+                            createdAt={new Date(payload.new.createdAt)}
+                            position={[
+                                payload.new.positionX,
+                                payload.new.positionY,
+                            ]}
+                            author={data?.username ?? 'Unknown'}
+                        />,
+                    ])
+                },
+            )
+            .subscribe()
+
+        return () => {
+            supabase.removeChannel(channel)
+        }
+    }, [supabase, noteComponents])
+
     const { tracking, offset, trackMotion, startTracking, stopTracking } =
         useStickyboardTracker()
 
@@ -73,7 +119,7 @@ const Stickyboard = ({
                             : ''
                     }
                 >
-                    {serverNoteComponents}
+                    {noteComponents}
                     <TooltipNotes />
                     {creationState === CREATION_STATE.CREATING &&
                     creatingPoint ? (

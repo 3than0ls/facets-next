@@ -16,6 +16,7 @@ export default async function Home() {
 
             return (
                 <Note
+                    key={note.id}
                     title={note.title}
                     text={note.text}
                     color={note.color}
