@@ -5,7 +5,6 @@ import Message from './Message'
 import ChatScroll from './ChatScroll'
 import { createClient } from '@/utils/supabase/client'
 import { useAuth } from '@/context/AuthContext'
-import { Message as MessageModel } from '@prisma/client'
 
 type MessagesProps = {
     serverProps: {

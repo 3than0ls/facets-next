@@ -3,7 +3,6 @@ import { ACTIONS, useNoteReducer } from './noteFormReducer'
 import { PJSFontClassName } from '@/fonts'
 import { TbTrash } from 'react-icons/tb'
 import { TbSquarePlus2 } from 'react-icons/tb'
-import { Color } from '@prisma/client'
 import postNote from '@/actions/postNote'
 
 type Point = {
@@ -61,14 +60,13 @@ const CreateNoteForm = ({
         })
     }
 
-    const onPost = (formData: FormData) => {
+    const onPost = () => {
         postNote({
             title: state.title,
             text: state.text,
             color: bgColor.current,
             position: initialPosition,
         })
-        // I could just say that
         resetCreationState()
     }
     /*
