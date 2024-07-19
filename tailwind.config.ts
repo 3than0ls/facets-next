@@ -8,6 +8,9 @@ const config: Config = {
     ],
     theme: {
         extend: {
+            backgroundImage: {
+                image: "url('/static/background.svg')",
+            },
             size: {
                 stickyboardGrid: `10000px`,
             },

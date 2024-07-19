@@ -1,5 +1,6 @@
 'use client'
 
+import { CBFontClassName } from '@/fonts'
 import { Color } from '@prisma/client'
 import React from 'react'
 
@@ -11,6 +12,7 @@ type NoteProps = {
     author: string
     createdAt?: Date
     linkToAuthor?: boolean
+    noTranslate?: boolean
 }
 
 const Note = ({
@@ -21,6 +23,7 @@ const Note = ({
     author,
     createdAt,
     linkToAuthor = true,
+    noTranslate = false,
 }: NoteProps) => {
     const bgColor = {
         CYAN: 'bg-cyan-300',
@@ -45,9 +48,9 @@ const Note = ({
 
     return (
         <div
-            className={`absolute text-black p-3 ${bgColor} flex flex-col min-h-32 w-48 shadow-lg `}
+            className={`${noTranslate ? '' : 'absolute'} text-black p-3 ${bgColor} ${CBFontClassName} flex flex-col min-h-32 h-fit w-48 shadow-lg `}
             onMouseDown={stopPropagation}
-            style={clientPosition}
+            style={noTranslate ? {} : clientPosition}
         >
             <h1 className="text-3xl">{title}</h1>
             <p className="text-xl">{text}</p>
