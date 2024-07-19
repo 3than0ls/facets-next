@@ -59,7 +59,7 @@ const config: Config = {
             },
             animation: {
                 heroTextAnimation:
-                    'heroTextAnimation 450ms cubic-bezier(0.16, 1, 0.3, 1)',
+                    'heroTextAnimation cubic-bezier(0.16, 1, 0.3, 1)',
                 hoverTextAnimation:
                     'hoverTextAnimation 150ms cubic-bezier(0.16, 1, 0.3, 1)',
                 slideLeftAndFade:

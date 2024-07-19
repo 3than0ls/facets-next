@@ -50,7 +50,8 @@ const CreateAccountMenu = () => {
                 username: state.username,
                 password: state.password,
             })
-            router.push('/')
+
+            router.push('/board')
             router.refresh()
         } catch {
             dispatch({

@@ -43,7 +43,7 @@ export async function updateSession(request: NextRequest) {
 
     if (user && request.nextUrl.pathname.startsWith('/login')) {
         // prevent logged in user from seeing login page
-        return NextResponse.redirect(new URL('/', request.url))
+        return NextResponse.redirect(new URL(request.url))
     }
 
     // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're

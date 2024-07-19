@@ -54,6 +54,7 @@ const Note = ({
         >
             <h1 className="text-3xl">{title}</h1>
             <p className="text-xl">{text}</p>
+            <span className="flex-grow" />
             <p className="text-xs font-sans text-gray-600 text-right mt-2">
                 {createdAt?.toLocaleDateString()}
                 {createdAt ? ' - ' : ''}

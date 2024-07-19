@@ -6,17 +6,19 @@ import * as A from '@radix-ui/react-avatar'
 import * as DM from '@radix-ui/react-dropdown-menu'
 import Link from '../Link'
 import { useAuth } from '@/context/AuthContext'
+import { useRouter } from 'next/navigation'
 
 const ProfileDropdown = () => {
     const { user } = useAuth()
+    const router = useRouter()
 
     const logoutOnClick = async () => {
         await logout()
-        location.reload()
+        router.push('/')
     }
 
     return user === null ? (
-        <Link href="/login" text="Login" colorTheme="black" />
+        <Link href="/login" text="Login" />
     ) : (
         <DM.Root>
             <DM.Trigger asChild>
@@ -43,7 +45,10 @@ const ProfileDropdown = () => {
                     </DM.Item>
                     <DM.Separator className="h-[2px] bg-accent my-2" />
                     <DM.Item className="hover:outline-none ml-5 mr-16">
-                        <Link href="/user/" text="Your profile" />
+                        <Link
+                            href={`/user/${user?.user_metadata?.username}`}
+                            text="Your profile"
+                        />
                     </DM.Item>
                     <DM.Item className="hover:outline-none ml-5 mr-16">
                         <Link onClick={logoutOnClick} href="/" text="Log out" />
