@@ -1,41 +1,30 @@
-import Chat from '@/components/chat/Chat'
-import Note from '@/components/stickyboard/Note'
-import Stickyboard from '@/components/stickyboard/Stickyboard'
-import prisma from '@/utils/prisma/client'
-import { Note as NoteModel } from '@prisma/client'
+import Link from 'next/link'
 
-export default async function Home() {
-    const notes = await prisma.note.findMany()
-    const noteComponents = await Promise.all(
-        notes.map(async (note: NoteModel) => {
-            const user = await prisma.user.findUnique({
-                where: {
-                    id: note.userId,
-                },
-            })
-
-            return (
-                <Note
-                    key={note.id}
-                    title={note.title}
-                    text={note.text}
-                    color={note.color}
-                    createdAt={note.createdAt}
-                    position={[note.positionX, note.positionY]}
-                    author={user?.username ?? 'Unknown'}
-                />
-            )
-        }),
-    )
-
+export default function Home() {
     return (
-        <div
-            className={`min-h-0 min-w-0 h-screen w-screen flex flex-row overflow-hidden`}
-        >
-            <Chat />
-            <Stickyboard
-                serverSideProps={{ serverNoteComponents: noteComponents }}
-            />
+        <div className="w-full h-full flex flex-col justify-center items-center gap-12 bg-image bg-fixed bg-cover bg-center">
+            <h1 className="text-8xl font-semibold text-black animate-heroTextAnimation">
+                What are <i className="mr-4">your</i> thoughts?
+            </h1>
+            <h4 className="text-3xl">
+                Post what you're thinking for everyone to see.
+            </h4>
+            <div className="flex gap-16">
+                <Link
+                    href="/board"
+                    className={`bg-accent text-white flex items-center justify-center rounded-full shadow-2xl transform hover:scale-105 px-10 py-5 text-2xl bg-left bg-gradient-to-r from-black to-black bg-[length:0_100%] bg-no-repeat hover:bg-[length:100%_100%] transition-all duration-300 ease-in-out`}
+                >
+                    Visit the board
+                </Link>
+                <a
+                    href="https://github.com/3than0ls/facets-next"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`bg-black text-white flex items-center justify-center rounded-full shadow-2xl transform hover:scale-105 px-10 py-5 text-2xl bg-left bg-gradient-to-r from-accent to-accent bg-[length:0_100%] bg-no-repeat hover:bg-[length:100%_100%] transition-all duration-300 ease-in-out`}
+                >
+                    Visit the GitHub
+                </a>
+            </div>
         </div>
     )
 }

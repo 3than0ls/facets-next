@@ -1,5 +1,4 @@
 import Note from '@/components/stickyboard/Note'
-import { PJSFontClassName } from '@/fonts'
 import prisma from '@/utils/prisma/client'
 
 type Params = {
@@ -8,7 +7,7 @@ type Params = {
     }
 }
 
-export default async function Home({ params: { username } }: Params) {
+export default async function User({ params: { username } }: Params) {
     const userNotes = await prisma.user.findUnique({
         where: {
             username,
