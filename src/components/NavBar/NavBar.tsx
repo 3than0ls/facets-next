@@ -26,7 +26,7 @@ const NavBar = () => {
                 </NM.Item>
 
                 <NM.Item className="my-auto mx-8 hover:text-primary transition-colors duration-200">
-                    <Link href="https://www.google.com" text="About" />
+                    <Link href="/about" text="About" />
                 </NM.Item>
 
                 <NM.Item className="my-auto mx-8 hover:text-primary transition-colors duration-200">

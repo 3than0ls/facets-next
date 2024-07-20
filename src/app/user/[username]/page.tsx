@@ -38,7 +38,7 @@ export default async function User({ params: { username } }: Params) {
 
     return (
         <div className="w-full h-full p-12 flex flex-col gap-4 bg-image bg-fixed bg-cover bg-center">
-            <span className="flex items-end w-fit gap-4 border-b-2 border-accent">
+            <span className="flex items-end w-fit gap-4 border-b-4 border-accent">
                 <span className="">User:</span>
                 <h1 className="text-5xl">{username}</h1>
             </span>
