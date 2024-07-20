@@ -1,7 +1,5 @@
 <img src="assets/facets-next-github-image.png" alt="facets-next" height="120" />
 
-<br>
-
 # Facets
 
 Facets is a project where web clients with similar UIs can all perfrom realtime CRUD functions on a shared, central Supabase database.
