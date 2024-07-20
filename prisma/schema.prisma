@@ -1,0 +1,46 @@
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["views"]
+}
+
+datasource db {
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
+}
+
+model Message {
+    id     Int      @id @default(autoincrement())
+    sentAt DateTime @default(now())
+    text   String
+    userId String?  @db.Uuid
+    User   User?    @relation(fields: [userId], references: [id])
+}
+
+model Note {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    title     String   @db.VarChar(50)
+    text      String   @db.VarChar(500)
+    positionX Int
+    positionY Int
+    color     Color    @default(YELLOW)
+    userId    String   @db.Uuid
+    User      User     @relation(fields: [userId], references: [id])
+}
+
+model User {
+    id       String    @id @unique @db.Uuid
+    username String    @unique
+    email    String
+    messages Message[]
+    notes    Note[]
+}
+
+enum Color {
+    CYAN
+    ORANGE
+    YELLOW
+    GREEN
+    RED
+}
