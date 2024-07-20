@@ -42,7 +42,7 @@ export default async function User({ params: { username } }: Params) {
                 <span className="">User:</span>
                 <h1 className="text-5xl">{username}</h1>
             </span>
-            <h3 className="text-3xl mt-4">{username}'s Notes</h3>
+            <h3 className="text-3xl mt-4">{username}&apos;s Notes</h3>
 
             <div
                 className={`flex flex-row flex-wrap gap-10  relative transform-none`}

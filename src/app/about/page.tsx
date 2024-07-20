@@ -27,8 +27,8 @@ const About = () => {
                     <p>
                         I wanted to learn a variety of different web frameworks,
                         while still making the project meaningful enough that I
-                        would be interested in it while using the framework's
-                        most powerful features.
+                        would be interested in it while using the
+                        framework&apos;s most powerful features.
                     </p>
                     <p>
                         Armed with the knowledge of each framework and library,

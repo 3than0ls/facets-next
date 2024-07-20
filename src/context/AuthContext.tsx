@@ -35,7 +35,7 @@ const AuthProvider = ({
         return () => {
             authListener.subscription.unsubscribe()
         }
-    }, [])
+    }, [supabase.auth])
 
     return (
         <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>

@@ -13,7 +13,7 @@ export default function Home() {
                 style={{ animationDuration: '1600ms' }}
                 className="text-3xl transition duration-1000 animate-heroTextAnimation"
             >
-                Post what you're thinking for everyone to see.
+                Post what you&apos;re thinking for everyone to see.
             </h4>
             <div
                 style={{ animationDuration: '2000ms' }}

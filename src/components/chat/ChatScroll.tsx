@@ -56,7 +56,7 @@ const ChatScroll = ({
             setHasMore(false)
         }
         setCurrentlyLoading(false)
-    }, [currentlyLoading])
+    }, [currentlyLoading, children])
 
     return (
         <div
@@ -71,7 +71,7 @@ const ChatScroll = ({
             ) : null}
             {!hasMore ? (
                 <div className="p-4 flex items-center justify-center w-auto bg-primary animate-chatLoadingFade">
-                    Congragulations! You've reached the top!
+                    Congragulations! You&apos;ve reached the top!
                 </div>
             ) : null}
         </div>
